@@ -1,6 +1,6 @@
 {{-- resources/views/admin/jenis-hewan/index.blade.php --}}
 
-@extends('layouts.admin_master')
+@extends('layouts.sidebar')
 
 @section('title', 'Daftar Jenis Hewan')
 @section('page_name', 'jenis-hewan')

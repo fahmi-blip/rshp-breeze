@@ -22,8 +22,13 @@ use App\Http\Controllers\Dokter\DetailRekamMedisController;
 use App\Http\Controllers\Perawat\DashboardController as PerawatDashboardController;
 use App\Http\Controllers\Perawat\RekamMedisController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // Public Routes (Site)
+// Di bagian paling atas setelah use statements
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
 Route::get('/home', [SiteController::class, 'index'])->name('site.index');
 Route::get('/visi', [SiteController::class, 'visi'])->name('site.visi');
 Route::get('/struktur', [SiteController::class, 'struktur'])->name('site.struktur');
@@ -33,6 +38,12 @@ Route::get('/cek-koneksi', [SiteController::class, 'cekKoneksi'])->name('site.ce
 // Auth Routes
 require __DIR__.'/auth.php';
 
+Route::get('/logout', function() {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');

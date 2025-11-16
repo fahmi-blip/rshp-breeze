@@ -1,56 +1,26 @@
-{{-- resources/views/admin/dashboard.blade.php --}}
-
-{{-- Ganti layout lama 'layouts.lte.main' dengan layout baru Anda --}}
-@extends('layouts.admin_master')
-
-{{-- Set title dan page_name untuk Alpine.js --}}
-@section('title', 'Admin Dashboard')
-@section('page_name', 'ecommerce') {{-- 'ecommerce' adalah nama halaman ini di sidebar --}}
-
-{{-- Tampilkan Breadcrumb --}}
-@section('breadcrumb')
-  <div x-data="{ pageName: `Dashboard`}">
-    {{-- Memanggil parsial breadcrumb --}}
-    {{-- @include('partials.breadcrumb') --}}
-    <link href="{{ asset('assets/partials/breadcrumb.html') }}" rel="stylesheet">
-  </div>
-@endsection
-
-{{-- Ini adalah konten utama halaman dashboard --}}
-@section('content')
-  {{-- 
-    Salin struktur konten dari file template asli
-    (misalnya: larshp_tamplate/src/index.html)
-    dan gunakan @include untuk memanggil parsial Blade Anda.
-  --}}
-  
-  <div class="grid grid-cols-12 gap-4 md:gap-6">
-    <div class="col-span-12 space-y-6 xl:col-span-7">
-      {{-- @extends('partials.metric-group.metric-group-01') --}}
-      <link href="{{ asset('assets/partials/metric-group/metric-group-01.html') }}" rel="stylesheet">
-      {{-- @include('partials.chart.chart-01') --}}
-      <link href="{{ asset('assets/partials/chart/chart-01.html') }}" rel="stylesheet">
-    </div>
-    <div class="col-span-12 xl:col-span-5">
-      <link href="{{ asset('assets/partials/chart/chart-02.html') }}" rel="stylesheet">
-      {{-- @include('partials.chart.chart-02') --}}
-    </div>
-    
-    <div class="col-span-12">
-      <link href="{{ asset('assets/partials/chart/chart-03.html') }}" rel="stylesheet">
-      {{-- @include('partials.chart.chart-03') --}}
-      </div>
-
-    <div class="col-span-12 xl:col-span-5">
-      {{-- @include('partials.map-01') --}}
-      <link href="{{ asset('assets/partials/map-01.html') }}" rel="stylesheet">
-      
-      </div>
-
-    <div class="col-span-12 xl:col-span-7">
-      {{-- @include('partials.table.table-01') --}}
-      <link href="{{ asset('assets/partials/table/table-01.html') }}" rel="stylesheet">
-      
-      </div>
-  </div>
-@endsection
+{{-- Di bagian sidebar, ganti link logout --}}
+<aside class="sidebar">
+    <h2 class="sidebar-logo">RSHP</h2>
+    <ul class="sidebar-menu">
+        <li><a href="{{ route('admin.dashboard') }}" class="active">Dashboard</a></li>
+        <li><a href="{{ route('admin.jenis-hewan.index') }}">Jenis Hewan</a></li>
+        <li><a href="{{ route('admin.pemilik.index') }}">Pemilik</a></li>
+        <li><a href="{{ route('admin.ras-hewan.index') }}">Ras Hewan</a></li>
+        <li><a href="{{ route('admin.kategori.index') }}">Kategori</a></li>
+        <li><a href="{{ route('admin.kategori-klinis.index') }}">Kategori Klinis</a></li>
+        <li><a href="{{ route('admin.tindakan-terapi.index') }}">Tindakan & Terapi</a></li>
+        <li><a href="{{ route('admin.user.index') }}">Manajemen User</a></li>
+        <li><a href="{{ route('admin.role.index') }}">Manajemen Role</a></li>
+        <li><a href="{{ route('admin.pet.index') }}">Data Hewan Peliharaan</a></li>
+        <li><a href="{{ route('admin.role-user.index') }}">Penetapan Role User</a></li>
+        {{-- Ganti link logout dengan form POST --}}
+        <li>
+            <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                @csrf
+                <button type="submit" class="logout-btn" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 12px 20px; color: #ff4b5c; font-weight: bold;">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</aside>

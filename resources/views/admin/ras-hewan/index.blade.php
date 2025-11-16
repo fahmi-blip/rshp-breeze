@@ -215,7 +215,7 @@ td a.delete-btn:hover {
                 <li><a href="{{ route('admin.role.index') }}">Manajemen Role</a></li>
                 <li><a href="{{ route('admin.pet.index') }}" >Data Hewan Peliharaan</a></li>
                 <li><a href="{{ route('admin.role-user.index') }}">Penetapan Role User</a></li>
-                <li><a href="{{ route('login') }}" class="logout-btn">Logout</a></li>
+                <li><a href="{{ route('logout') }}" class="logout-btn">Logout</a></li>
           </ul>
         </aside>
         <main class="main-content">

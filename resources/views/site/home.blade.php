@@ -15,7 +15,7 @@
                     <a href="/struktur">Struktur Organisasi</a>
                     <a href="/layanan">Layanan Umum</a>
                     <a href="/visi">Visi Misi & Tujuan</a>
-                    <a href="/">LOGIN</a>
+                    <a method="GET" href="{{ route('login') }}">LOGIN</a>
             </div>
         </nav>
     </header>
