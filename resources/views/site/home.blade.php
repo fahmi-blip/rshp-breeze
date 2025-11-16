@@ -15,7 +15,7 @@
                     <a href="/struktur">Struktur Organisasi</a>
                     <a href="/layanan">Layanan Umum</a>
                     <a href="/visi">Visi Misi & Tujuan</a>
-                    <a href="/login">LOGIN</a>
+                    <a href="/">LOGIN</a>
             </div>
         </nav>
     </header>

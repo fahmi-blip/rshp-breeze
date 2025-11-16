@@ -10,7 +10,7 @@ class Pemilik extends Model
 {
     protected $table = 'pemilik';
     protected $primaryKey = 'idpemilik';
-    protected $fillable = ['iduser','no_wa', 'alamat'];
+    protected $fillable = ['idpemilik','iduser','no_wa', 'alamat'];
     
     public function user(){
         return $this->belongsTo(User::class,'iduser','iduser');

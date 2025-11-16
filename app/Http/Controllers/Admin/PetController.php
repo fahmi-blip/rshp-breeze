@@ -14,7 +14,7 @@ class PetController extends Controller
 {
     public function index()
     {
-        $pet = Pet::with('user', 'pemilik.user', 'rasHewan.jenisHewan')->get();
+        $pet = Pet::with('pemilik.user', 'rasHewan.jenisHewan')->get();
         return view('admin.pet.index', compact('pet'));
     }
 
@@ -70,7 +70,7 @@ class PetController extends Controller
             ],
             'jenis_kelamin' => [
                 'required',
-                'in:1,0'
+                'in:J,B' // J untuk Jantan, B untuk Betina
             ],
             'idpemilik' => [
                 'required',
@@ -78,7 +78,7 @@ class PetController extends Controller
             ],
             'idras_hewan' => [
                 'required',
-            'exists:ras_hewan,idras_hewan'
+                'exists:ras_hewan,idras_hewan'
             ],
         ];
 
@@ -92,7 +92,7 @@ class PetController extends Controller
             'warna_tanda.required' => 'Warna/tanda wajib diisi.',
             'warna_tanda.max' => 'Warna/tanda maksimal 255 karakter.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
-            'jenis_kelamin.in' => 'Jenis kelamin harus Jantan atau Betina.',
+            'jenis_kelamin.in' => 'Jenis kelamin harus Jantan (J) atau Betina (B).',
             'idpemilik.required' => 'Pemilik wajib dipilih.',
             'idpemilik.exists' => 'Pemilik yang dipilih tidak valid.',
             'idras_hewan.required' => 'Ras hewan wajib dipilih.',
@@ -109,7 +109,7 @@ class PetController extends Controller
                 'nama' => $this->formatNama($data['nama']),
                 'tanggal_lahir' => $data['tanggal_lahir'],
                 'warna_tanda' => trim($data['warna_tanda']),
-                'jenis_kelamin' => $data['jenis_kelamin'],
+                'jenis_kelamin' => $data['jenis_kelamin'], // 'J' atau 'B'
                 'idpemilik' => $data['idpemilik'],
                 'idras_hewan' => $data['idras_hewan'],
             ]);
