@@ -24,3 +24,5 @@
         </li>
     </ul>
 </aside>
+
+@extends('layouts.sidebar')

@@ -44,9 +44,10 @@ Route::get('/logout', function() {
     request()->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
+
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
     // Jenis Hewan
     Route::resource('jenis-hewan', JenisHewanController::class);
