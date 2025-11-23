@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Main Styling -->
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
 
     <link
       href="{{ asset('assets/css/soft-ui-dashboard-tailwind.css') }}"
