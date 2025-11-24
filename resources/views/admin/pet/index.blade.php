@@ -41,15 +41,15 @@
                                     <div class="px-6 py-1">
                                         <h6 class="mb-0 text-sm font-semibold leading-tight">{{ $item->nama }}</h6>
                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                            Owner: {{ $item->pemilik->user->nama ?? '-' }}
+                                            Owner: {{ $item->nama_pemilik ?? '-' }}
                                         </p>
                                     </div>
                                 </td>
                                 <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <div class="px-6 py-1">
-                                        <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->rasHewan->nama_ras ?? '-' }}</p>
+                                        <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_ras ?? '-' }}</p>
                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                            {{ $item->rasHewan->jenisHewan->nama_jenis_hewan ?? '-' }}
+                                            {{ $item->nama_jenis_hewan ?? '-' }}
                                         </p>
                                     </div>
                                 </td>

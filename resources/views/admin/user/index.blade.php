@@ -49,8 +49,8 @@
                                     </div>
                                 </td>
                                 <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    {{-- Tombol Edit (Jika ada route edit nanti) --}}
-                                    <a href="#" class="mx-2 mr-2 text-xs font-semibold leading-tight text-slate-400 hover:text-slate-700">
+                                    
+                                    <a href="{{ route('admin.user.edit', $item->iduser) }}" class="mx-2 mr-2 text-xs font-semibold leading-tight text-slate-400 hover:text-slate-700">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
                                     

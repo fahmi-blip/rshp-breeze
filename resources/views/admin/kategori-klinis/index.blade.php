@@ -37,10 +37,10 @@
                                     </div>
                                 </td>
                                 <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <a href="{{ route('admin.kategori.edit', $klinis->idkategori_klinis) }}" class="mx-2 mr-2 text-xs font-semibold leading-tight text-slate-400">
+                                    <a href="{{ route('admin.kategori-klinis.edit', $klinis->idkategori_klinis) }}" class="mx-2 mr-2 text-xs font-semibold leading-tight text-slate-400">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <form action="{{ route('admin.kategori.delete', $klinis->idkategori_klinis) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus data ini?')">
+                                    <form action="{{ route('admin.kategori-klinis.delete', $klinis->idkategori_klinis) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus data ini?')">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="text-xs font-semibold leading-tight text-red-500 bg-transparent border-none cursor-pointer">
                                             <i class="fas fa-trash"></i> Hapus

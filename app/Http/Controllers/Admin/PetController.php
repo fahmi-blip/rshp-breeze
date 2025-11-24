@@ -8,45 +8,120 @@ use App\Models\Pet;
 use App\Models\Pemilik;
 use App\Models\RasHewan;
 use Exception; 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class PetController extends Controller
 {
     public function index()
     {
-        $pet = Pet::with('pemilik.user', 'rasHewan.jenisHewan')->get();
+        $pet = DB::table('pet')
+            ->join('pemilik', 'pet.idpemilik', '=', 'pemilik.idpemilik')
+            ->join('user', 'pemilik.iduser', '=', 'user.iduser') // Ambil nama pemilik dari tabel user
+            ->join('ras_hewan', 'pet.idras_hewan', '=', 'ras_hewan.idras_hewan')
+            ->join('jenis_hewan', 'ras_hewan.idjenis_hewan', '=', 'jenis_hewan.idjenis_hewan')
+            ->select('pet.*', 'user.nama as nama_pemilik', 'ras_hewan.nama_ras', 'jenis_hewan.nama_jenis_hewan')
+            ->orderBy('pet.idpet', 'asc')
+            ->get();
         return view('admin.pet.index', compact('pet'));
     }
 
-    /**
-     * Menampilkan form create pet
-     */
     public function create()
     {
-        $pemilik = Pemilik::with('user')->get();
-        $rasHewan = RasHewan::with('jenisHewan')->get();
+        $pemilik = DB::table('pemilik')
+            ->join('user', 'pemilik.iduser', '=', 'user.iduser')
+            ->select('pemilik.idpemilik', 'user.nama')
+            ->get();
+            
+        // Ubah struktur agar view create.blade.php tetap jalan ($item->user->nama)
+        // Kita map agar cocok dengan view yang mengharapkan properti nested, 
+        // ATAU (lebih baik) ubah view create untuk pakai $item->nama saja. 
+        // Di sini saya kirim data flat, asumsikan view create pakai $item->nama.
+        foreach($pemilik as $p) {
+            $p->user = (object)['nama' => $p->nama];
+        }
+
+        $rasHewan = DB::table('ras_hewan')
+            ->join('jenis_hewan', 'ras_hewan.idjenis_hewan', '=', 'jenis_hewan.idjenis_hewan')
+            ->select('ras_hewan.idras_hewan', 'ras_hewan.nama_ras', 'jenis_hewan.nama_jenis_hewan')
+            ->get();
+            
+        foreach($rasHewan as $r) {
+            $r->jenisHewan = (object)['nama_jenis_hewan' => $r->nama_jenis_hewan];
+        }
+
         return view('admin.pet.create', compact('pemilik', 'rasHewan'));
     }
 
-    /**
-     * Menyimpan data pet baru
-     */
     public function store(Request $request)
     {
-        try {
-            // 1. Validasi menggunakan helper
-            $validatedData = $this->validatePet($request);
-            
-            // 2. Simpan menggunakan helper
-            $this->createPet($validatedData);
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'idpemilik' => 'required|exists:pemilik,idpemilik',
+            'idras_hewan' => 'required|exists:ras_hewan,idras_hewan',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:J,B,1,0',
+            'warna_tanda' => 'required|string',
+        ]);
 
-            return redirect()->route('admin.pet.index')
-                ->with('success', 'Data Pet berhasil ditambahkan.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage())
-                ->withInput();
-        }
+        DB::table('pet')->insert([
+            'nama' => $request->nama,
+            'idpemilik' => $request->idpemilik,
+            'idras_hewan' => $request->idras_hewan,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'warna_tanda' => $request->warna_tanda,
+        ]);
+
+        return redirect()->route('admin.pet.index')->with('success', 'Data Pet berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $pet = DB::table('pet')->where('idpet', $id)->first();
+        
+        $pemilik = DB::table('pemilik')
+            ->join('user', 'pemilik.iduser', '=', 'user.iduser')
+            ->select('pemilik.idpemilik', 'user.nama')
+            ->get();
+        foreach($pemilik as $p) { $p->user = (object)['nama' => $p->nama]; }
+
+        $rasHewan = DB::table('ras_hewan')
+            ->join('jenis_hewan', 'ras_hewan.idjenis_hewan', '=', 'jenis_hewan.idjenis_hewan')
+            ->select('ras_hewan.idras_hewan', 'ras_hewan.nama_ras', 'jenis_hewan.nama_jenis_hewan')
+            ->get();
+        foreach($rasHewan as $r) { $r->jenisHewan = (object)['nama_jenis_hewan' => $r->nama_jenis_hewan]; }
+
+        return view('admin.pet.edit', compact('pet', 'pemilik', 'rasHewan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'idpemilik' => 'required|exists:pemilik,idpemilik',
+            'idras_hewan' => 'required|exists:ras_hewan,idras_hewan',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:J,B,1,0',
+            'warna_tanda' => 'required|string',
+        ]);
+
+        DB::table('pet')->where('idpet', $id)->update([
+            'nama' => $request->nama,
+            'idpemilik' => $request->idpemilik,
+            'idras_hewan' => $request->idras_hewan,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'warna_tanda' => $request->warna_tanda,
+        ]);
+
+        return redirect()->route('admin.pet.index')->with('success', 'Data Pet berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('pet')->where('idpet', $id)->delete();
+        return redirect()->route('admin.pet.index')->with('success', 'Data Pet berhasil dihapus.');
     }
 
     protected function validatePet(Request $request, $id = null)

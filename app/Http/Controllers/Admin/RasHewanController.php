@@ -6,13 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RasHewan;
 use App\Models\JenisHewan;
+use Illuminate\Support\Facades\DB;
 use Exception; // Tambahkan ini
 
 class RasHewanController extends Controller
 {
     public function index()
     {
-        $rasHewan = RasHewan::with('jenisHewan')->get();
+        $rasHewan = DB::table('ras_hewan')
+            ->join('jenis_hewan', 'ras_hewan.idjenis_hewan', '=', 'jenis_hewan.idjenis_hewan')
+            ->select('ras_hewan.*', 'jenis_hewan.nama_jenis_hewan')
+            ->orderBy('ras_hewan.idras_hewan', 'asc')
+            ->get();
+
         return view('admin.ras-hewan.index', compact('rasHewan'));
     }
 
@@ -26,16 +32,45 @@ class RasHewanController extends Controller
     // 2. Method untuk menyimpan data [cite: 1661-1668]
     public function store(Request $request)
     {
-        try {
-            $validatedData = $this->validateRasHewan($request);
-            $this->createRasHewan($validatedData);
+        $request->validate([
+            'nama_ras' => 'required|string|max:255',
+            'idjenis_hewan' => 'required|exists:jenis_hewan,idjenis_hewan',
+        ]);
 
-            return redirect()->route('admin.ras-hewan.index')
-                ->with('success', 'Data Ras Hewan berhasil ditambahkan.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
-        }
+        DB::table('ras_hewan')->insert([
+            'nama_ras' => $this->formatNama($request->nama_ras),
+            'idjenis_hewan' => $request->idjenis_hewan,
+        ]);
+
+        return redirect()->route('admin.ras-hewan.index')->with('success', 'Ras Hewan berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $rasHewan = DB::table('ras_hewan')->where('idras_hewan', $id)->first();
+        $jenisHewan = DB::table('jenis_hewan')->get();
+        return view('admin.ras-hewan.edit', compact('rasHewan', 'jenisHewan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_ras' => 'required|string|max:255',
+            'idjenis_hewan' => 'required|exists:jenis_hewan,idjenis_hewan',
+        ]);
+
+        DB::table('ras_hewan')->where('idras_hewan', $id)->update([
+            'nama_ras' => $this->formatNama($request->nama_ras),
+            'idjenis_hewan' => $request->idjenis_hewan,
+        ]);
+
+        return redirect()->route('admin.ras-hewan.index')->with('success', 'Ras Hewan berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('ras_hewan')->where('idras_hewan', $id)->delete();
+        return redirect()->route('admin.ras-hewan.index')->with('success', 'Ras Hewan berhasil dihapus.');
     }
 
     // 3. Helper Validasi [cite: 1683-1701]

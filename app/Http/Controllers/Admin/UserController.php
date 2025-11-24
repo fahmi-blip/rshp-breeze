@@ -7,34 +7,65 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash; // Tambahkan ini
 use Exception; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $user = User::all();
+        $user = DB::table('user')->orderBy('iduser', 'asc')->get();
         return view('admin.user.index', compact('user'));
     }
 
-    // 1. Method untuk menampilkan form create
     public function create()
     {
         return view('admin.user.create');
     }
 
-    // 2. Method untuk menyimpan data [cite: 1661-1668]
     public function store(Request $request)
     {
-        try {
-            $validatedData = $this->validateUser($request);
-            $this->createUser($validatedData);
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:user,email',
+            'password' => 'required|min:8',
+        ]);
 
-            return redirect()->route('admin.user.index')
-                ->with('success', 'Data User berhasil ditambahkan.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        DB::table('user')->insert([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.user.index')->with('success', 'User berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $user = DB::table('user')->where('iduser', $id)->first();
+        return view('admin.user.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => ['required', 'email', Rule::unique('user')->ignore($id, 'iduser')],
+            'password' => 'nullable|min:8',
+        ]);
+
+        $data = [
+            'nama' => $request->nama,
+            'email' => $request->email,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
         }
+
+        DB::table('user')->where('iduser', $id)->update($data);
+
+        return redirect()->route('admin.user.index')->with('success', 'User berhasil diperbarui.');
     }
 
     // 3. Helper Validasi [cite: 1683-1701]

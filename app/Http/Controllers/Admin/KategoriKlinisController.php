@@ -6,30 +6,57 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\KategoriKlinis;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class KategoriKlinisController extends Controller
 {
     public function index()
     {
-        $kategoriKlinis = KategoriKlinis::all();
+        $kategoriKlinis = DB::table('kategori_klinis')->orderBy('idkategori_klinis', 'asc')->get();
         return view('admin.kategori-klinis.index', compact('kategoriKlinis'));
     }
+
     public function create()
     {
         return view('admin.kategori-klinis.create');
     }
-   public function store(Request $request)
+
+    public function store(Request $request)
     {
-        // 1. Validasi data langsung menggunakan request
-        $validateData = $request->validate([
-            'nama_kategori_klinis' => 'required|string|max:255',
+        $request->validate([
+            'nama_kategori_klinis' => 'required|string|max:255|unique:kategori_klinis,nama_kategori_klinis',
         ]);
 
-        // 2. Simpan data ke database menggunakan Model
-        KategoriKlinis::create($validateData);
-        
-        return redirect()->route('admin.kategori-klinis.index')
-                    ->with('success', 'Jenis Hewan berhasil ditambahkan.');
+        DB::table('kategori_klinis')->insert([
+            'nama_kategori_klinis' => $this->formatNama($request->nama_kategori_klinis),
+        ]);
+
+        return redirect()->route('admin.kategori-klinis.index')->with('success', 'Kategori Klinis berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $kategoriKlinis = DB::table('kategori_klinis')->where('idkategori_klinis', $id)->first();
+        return view('admin.kategori-klinis.edit', compact('kategoriKlinis'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_kategori_klinis' => ['required', 'string', 'max:255', Rule::unique('kategori_klinis')->ignore($id, 'idkategori_klinis')],
+        ]);
+
+        DB::table('kategori_klinis')->where('idkategori_klinis', $id)->update([
+            'nama_kategori_klinis' => $this->formatNama($request->nama_kategori_klinis),
+        ]);
+
+        return redirect()->route('admin.kategori-klinis.index')->with('success', 'Kategori Klinis berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('kategori_klinis')->where('idkategori_klinis', $id)->delete();
+        return redirect()->route('admin.kategori-klinis.index')->with('success', 'Kategori Klinis berhasil dihapus.');
     }
     protected function validateKategoriKlinis(Request $request, $id = null)
     {

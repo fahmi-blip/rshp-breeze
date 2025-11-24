@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pemilik;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class PemilikController extends Controller
@@ -16,45 +17,73 @@ class PemilikController extends Controller
      */
     public function index()
     {
-        $pemilik = Pemilik::with('user')->get();
+        $pemilik = DB::table('pemilik')
+            ->join('user','pemilik.iduser','=','user.iduser')
+            ->select('pemilik.*','user.nama','user.email')
+            ->get();
         return view('admin.pemilik.index', compact('pemilik'));
     }
-    
-    /**
-     * Menampilkan form create pemilik
-     */
     public function create()
-    {   
-        // Ambil users yang belum menjadi pemilik
-        $users = User::whereDoesntHave('pemilik')->get();
+    {
+        // Ambil user yang belum jadi pemilik
+        $existingIds = DB::table('pemilik')->pluck('iduser');
+        $users = DB::table('user')->whereNotIn('iduser', $existingIds)->get();
+        
         return view('admin.pemilik.create', compact('users'));
     }
     
-    /**
-     * Menyimpan data pemilik baru
-     */
     public function store(Request $request)
     {
-        try {
-            // 1. Validasi data menggunakan helper
-            $validatedData = $this->validatePemilik($request);
-            
-            // 2. Simpan data menggunakan helper
-            $this->createPemilik($validatedData);
-            
-            return redirect()->route('admin.pemilik.index')
-                        ->with('success', 'Data Pemilik berhasil ditambahkan.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                        ->with('error', 'Gagal menyimpan data: ' . $e->getMessage())
-                        ->withInput();
-        }
+        $request->validate([
+            'iduser' => 'required|exists:user,iduser|unique:pemilik,iduser',
+            'no_wa' => 'required|string|max:20|unique:pemilik,no_wa',
+            'alamat' => 'required|string',
+        ]);
+
+        DB::table('pemilik')->insert([
+            'iduser' => $request->iduser,
+            'no_wa' => $request->no_wa,
+            'alamat' => ucfirst($request->alamat),
+        ]);
+
+        return redirect()->route('admin.pemilik.index')->with('success', 'Pemilik berhasil ditambahkan.');
+    }
+    public function edit($id)
+{
+    // jika model primary key bernama idpemilik, pakai findOrFail dengan primaryKey di model
+    $pemilik = Pemilik::find($id);
+    if (!$pemilik) {
+        return redirect()->route('admin.pemilik.index')->with('error', 'Pemilik tidak ditemukan.');
+    }
+    $users = User::all();
+    return view('admin.pemilik.edit', compact('pemilik','users'));
+}
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'iduser' => ['required', 'exists:user,iduser', Rule::unique('pemilik')->ignore($id, 'idpemilik')],
+            'no_wa' => ['required', 'string', 'max:20', Rule::unique('pemilik')->ignore($id, 'idpemilik')],
+            'alamat' => 'required|string',
+        ]);
+
+        DB::table('pemilik')->where('idpemilik', $id)->update([
+            'iduser' => $request->iduser,
+            'no_wa' => $request->no_wa,
+            'alamat' => ucfirst($request->alamat),
+        ]);
+
+        return redirect()->route('admin.pemilik.index')->with('success', 'Data pemilik berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('pemilik')->where('idpemilik', $id)->delete();
+        return redirect()->route('admin.pemilik.index')->with('success', 'Data pemilik berhasil dihapus.');
     }
     
-    /**
-     * Helper Validasi Pemilik
-     * Sesuai Modul 11
-     */
+    
     protected function validatePemilik(Request $request, $id = null)
     {
         $primaryKey = (new Pemilik)->getKeyName(); // 'idpemilik'
@@ -124,10 +153,8 @@ class PemilikController extends Controller
         }
     }
 
-    /**
-     * Helper untuk format alamat
-     * Sesuai Modul 11
-     */
+    
+     
     protected function formatAlamat($alamat)
     {
         // Capitalize first letter of each sentence

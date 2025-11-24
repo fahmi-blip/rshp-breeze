@@ -6,34 +6,58 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Exception; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
     public function index()
     {
-        $role = Role::all();
+        $role = DB::table('role')->orderBy('idrole', 'asc')->get();
         return view('admin.role.index', compact('role'));
     }
 
-    // 1. Method untuk menampilkan form create
     public function create()
     {
         return view('admin.role.create');
     }
 
-    // 2. Method untuk menyimpan data [cite: 1661-1668]
     public function store(Request $request)
     {
-        try {
-            $validatedData = $this->validateRole($request);
-            $this->createRole($validatedData);
+        $request->validate([
+            'nama_role' => 'required|string|max:255|unique:role,nama_role',
+        ]);
 
-            return redirect()->route('admin.role.index')
-                ->with('success', 'Data Role berhasil ditambahkan.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
-        }
+        DB::table('role')->insert([
+            'nama_role' => $this->formatNama($request->nama_role),
+        ]);
+
+        return redirect()->route('admin.role.index')->with('success', 'Role berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $role = DB::table('role')->where('idrole', $id)->first();
+        return view('admin.role.edit', compact('role'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_role' => ['required', 'string', 'max:255', Rule::unique('role')->ignore($id, 'idrole')],
+        ]);
+
+        DB::table('role')->where('idrole', $id)->update([
+            'nama_role' => $this->formatNama($request->nama_role),
+        ]);
+
+        return redirect()->route('admin.role.index')->with('success', 'Role berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('role')->where('idrole', $id)->delete();
+        return redirect()->route('admin.role.index')->with('success', 'Role berhasil dihapus.');
     }
 
     // 3. Helper Validasi [cite: 1683-1701]

@@ -55,7 +55,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('jenis-hewan', [JenisHewanController::class, 'store'])->name('jenis-hewan.store');
     Route::get('jenis-hewan/{id}/edit', [JenisHewanController::class, 'edit'])->name('jenis-hewan.edit');
     Route::put('jenis-hewan/{id}', [JenisHewanController::class, 'update'])->name('jenis-hewan.update');
-    Route::delete('jenis-hewan/{id}', [JenisHewanController::class, 'destroy'])->name('jenis-hewan.delete');
+    Route::delete('jenis-hewan/{id}', [JenisHewanController::class, 'delete'])->name('jenis-hewan.delete');
     
     // Kategori
     Route::get('kategori', [KategoriController::class, 'index'])->name('kategori.index');
@@ -63,7 +63,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('kategori', [KategoriController::class, 'store'])->name('kategori.store');
     Route::get('kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
-    Route::delete('kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.delete');
+    Route::delete('kategori/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
     
     // Kategori Klinis
     Route::get('kategori-klinis', [KategoriKlinisController::class, 'index'])->name('kategori-klinis.index');
@@ -71,7 +71,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('kategori-klinis', [KategoriKlinisController::class, 'store'])->name('kategori-klinis.store');
     Route::get('kategori-klinis/{id}/edit', [KategoriKlinisController::class, 'edit'])->name('kategori-klinis.edit');
     Route::put('kategori-klinis/{id}', [KategoriKlinisController::class, 'update'])->name('kategori-klinis.update');
-    Route::delete('kategori-klinis/{id}', [KategoriKlinisController::class, 'destroy'])->name('kategori-klinis.delete');
+    Route::delete('kategori-klinis/{id}', [KategoriKlinisController::class, 'delete'])->name('kategori-klinis.delete');
     
     // Pemilik
     Route::get('pemilik', [AdminPemilikController::class, 'index'])->name('pemilik.index');
@@ -79,7 +79,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('pemilik', [AdminPemilikController::class, 'store'])->name('pemilik.store');
     Route::get('pemilik/{id}/edit', [AdminPemilikController::class, 'edit'])->name('pemilik.edit');
     Route::put('pemilik/{id}', [AdminPemilikController::class, 'update'])->name('pemilik.update');
-    Route::delete('pemilik/{id}', [AdminPemilikController::class, 'destroy'])->name('pemilik.delete');
+    Route::delete('pemilik/{id}', [AdminPemilikController::class, 'delete'])->name('pemilik.delete');
     
     // Pet
     Route::get('pet', [AdminPetController::class, 'index'])->name('pet.index');
@@ -87,7 +87,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('pet', [AdminPetController::class, 'store'])->name('pet.store');
     Route::get('pet/{id}/edit', [AdminPetController::class, 'edit'])->name('pet.edit');
     Route::put('pet/{id}', [AdminPetController::class, 'update'])->name('pet.update');
-    Route::delete('pet/{id}', [AdminPetController::class, 'destroy'])->name('pet.delete');
+    Route::delete('pet/{id}', [AdminPetController::class, 'delete'])->name('pet.delete');
     
     // Ras Hewan
     Route::get('ras-hewan', [RasHewanController::class, 'index'])->name('ras-hewan.index');
@@ -95,7 +95,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('ras-hewan', [RasHewanController::class, 'store'])->name('ras-hewan.store');
     Route::get('ras-hewan/{id}/edit', [RasHewanController::class, 'edit'])->name('ras-hewan.edit');
     Route::put('ras-hewan/{id}', [RasHewanController::class, 'update'])->name('ras-hewan.update');
-    Route::delete('ras-hewan/{id}', [RasHewanController::class, 'destroy'])->name('ras-hewan.delete');
+    Route::delete('ras-hewan/{id}', [RasHewanController::class, 'delete'])->name('ras-hewan.delete');
     
     // Role
     Route::get('role', [RoleController::class, 'index'])->name('role.index');
@@ -103,7 +103,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('role', [RoleController::class, 'store'])->name('role.store');
     Route::get('role/{id}/edit', [RoleController::class, 'edit'])->name('role.edit');
     Route::put('role/{id}', [RoleController::class, 'update'])->name('role.update');
-    Route::delete('role/{id}', [RoleController::class, 'destroy'])->name('role.delete');
+    Route::delete('role/{id}', [RoleController::class, 'delete'])->name('role.delete');
     
     // Role User
     Route::get('role-user', [RoleUserController::class, 'index'])->name('role-user.index');
@@ -111,7 +111,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('role-user', [RoleUserController::class, 'store'])->name('role-user.store');
     Route::get('role-user/{id}/edit', [RoleUserController::class, 'edit'])->name('role-user.edit');
     Route::put('role-user/{id}', [RoleUserController::class, 'update'])->name('role-user.update');
-    Route::delete('role-user/{id}', [RoleUserController::class, 'destroy'])->name('role-user.delete');
+    Route::delete('role-user/{id}', [RoleUserController::class, 'delete'])->name('role-user.delete');
     
     // Tindakan Terapi
     Route::get('tindakan-terapi', [TindakanTerapiController::class, 'index'])->name('tindakan-terapi.index');
@@ -119,7 +119,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('tindakan-terapi', [TindakanTerapiController::class, 'store'])->name('tindakan-terapi.store');
     Route::get('tindakan-terapi/{id}/edit', [TindakanTerapiController::class, 'edit'])->name('tindakan-terapi.edit');
     Route::put('tindakan-terapi/{id}', [TindakanTerapiController::class, 'update'])->name('tindakan-terapi.update');
-    Route::delete('tindakan-terapi/{id}', [TindakanTerapiController::class, 'destroy'])->name('tindakan-terapi.delete');
+    Route::delete('tindakan-terapi/{id}', [TindakanTerapiController::class, 'delete'])->name('tindakan-terapi.delete');
     
     // User
     Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -127,7 +127,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.role:Admin'])
     Route::post('user', [UserController::class, 'store'])->name('user.store');
     Route::get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('user/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('user/{id}', [UserController::class, 'destroy'])->name('user.delete');
+    Route::delete('user/{id}', [UserController::class, 'delete'])->name('user.delete');
 });
 
 // Resepsionis Routes
@@ -163,5 +163,5 @@ Route::prefix('perawat')->name('perawat.')->middleware(['auth', 'check.role:Pera
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'delete'])->name('profile.delete');
 });

@@ -42,7 +42,7 @@
                                 <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <div class="px-6 py-1">
                                         <span class="px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white bg-gradient-to-tl from-green-600 to-lime-400">
-                                            {{ $ras->jenisHewan->nama_jenis_hewan ?? '-' }}
+                                            {{ $ras->nama_jenis_hewan ?? '-' }}
                                         </span>
                                     </div>
                                 </td>

@@ -7,50 +7,85 @@ use Illuminate\Http\Request;
 use App\Models\RoleUser;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Exception; // Pastikan use Exception ada
 
 class RoleUserController extends Controller
 {
     public function index()
     {
-        $roleUser = RoleUser::with('role', 'user')->get();
+        $roleUser = DB::table('role_user')
+            ->join('user', 'role_user.iduser', '=', 'user.iduser')
+            ->join('role', 'role_user.idrole', '=', 'role.idrole')
+            ->select('role_user.*', 'user.nama as nama_user', 'user.email', 'role.nama_role')
+            ->get();
+
+        // Mapping object manual untuk kompabilitas view ($item->user->nama)
+        foreach($roleUser as $ru) {
+            $ru->user = (object)['nama' => $ru->nama_user, 'email' => $ru->email];
+            $ru->role = (object)['nama_role' => $ru->nama_role];
+        }
+
         return view('admin.role-user.index', compact('roleUser'));
     }
 
-    /**
-     * TAMPILKAN FORM CREATE
-     * (DIUBAH: Hanya mengambil user yang BELUM memiliki role)
-     */
     public function create()
     {
-        $role = Role::all();
-
-        // 1. Ambil semua ID user yang SUDAH terdaftar di tabel role_user
-        $existingUserIds = RoleUser::pluck('iduser')->all();
-
-        // 2. Ambil user yang ID-nya TIDAK ADA di daftar $existingUserIds
-        $user = User::whereNotIn('iduser', $existingUserIds)->get();
+        $role = DB::table('role')->get();
+        // Ambil user yang belum punya role (optional logic, sesuai permintaan awal)
+        $existingUserIds = DB::table('role_user')->pluck('iduser')->toArray();
+        $user = DB::table('user')->whereNotIn('iduser', $existingUserIds)->get();
 
         return view('admin.role-user.create', compact('role', 'user'));
     }
 
-    /**
-     * SIMPAN DATA BARU
-     * (DIUBAH: Menambahkan ->withInput() pada catch block)
-     */
     public function store(Request $request)
     {
-        try {
-            $validatedData = $this->validateRoleUser($request);
-            $this->createRoleUser($validatedData);
+        $request->validate([
+            'iduser' => 'required|exists:user,iduser|unique:role_user,iduser',
+            'idrole' => 'required|exists:role,idrole',
+            'status' => 'required|in:1,0',
+        ]);
 
-            return redirect()->route('admin.role-user.index')
-                ->with('success', 'Data Role User berhasil ditambahkan.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage())
-                ->withInput(); // <-- Tambahan penting
-        }
+        DB::table('role_user')->insert([
+            'iduser' => $request->iduser,
+            'idrole' => $request->idrole,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.role-user.index')->with('success', 'Role User berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $roleUser = DB::table('role_user')->where('idrole_user', $id)->first();
+        $user = DB::table('user')->get(); // Saat edit, mungkin ingin ganti user juga
+        $role = DB::table('role')->get();
+        return view('admin.role-user.edit', compact('roleUser', 'user', 'role'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'iduser' => ['required', 'exists:user,iduser', Rule::unique('role_user')->ignore($id, 'idrole_user')],
+            'idrole' => 'required|exists:role,idrole',
+            'status' => 'required|in:1,0',
+        ]);
+
+        DB::table('role_user')->where('idrole_user', $id)->update([
+            'iduser' => $request->iduser,
+            'idrole' => $request->idrole,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.role-user.index')->with('success', 'Role User berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('role_user')->where('idrole_user', $id)->delete();
+        return redirect()->route('admin.role-user.index')->with('success', 'Role User berhasil dihapus.');
     }
 
 

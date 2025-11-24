@@ -38,6 +38,30 @@ class JenisHewanController extends Controller
         return redirect()->route('admin.jenis-hewan.index')
                     ->with('success', 'Jenis Hewan berhasil ditambahkan.');
     }
+    public function edit($id)
+    {
+        $jenisHewan = DB::table('jenis_hewan')->where('idjenis_hewan', $id)->first();
+        return view('admin.jenis-hewan.edit', compact('jenisHewan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_jenis_hewan' => ['required', 'string', 'max:255', Rule::unique('jenis_hewan')->ignore($id, 'idjenis_hewan')],
+        ]);
+
+        DB::table('jenis_hewan')->where('idjenis_hewan', $id)->update([
+            'nama_jenis_hewan' => $this->formatNamaJenisHewan($request->nama_jenis_hewan),
+        ]);
+
+        return redirect()->route('admin.jenis-hewan.index')->with('success', 'Jenis Hewan berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        DB::table('jenis_hewan')->where('idjenis_hewan', $id)->delete();
+        return redirect()->route('admin.jenis-hewan.index')->with('success', 'Jenis Hewan berhasil dihapus.');
+    }
     protected function validateJenisHewan(Request $request, $id = null)
     {
         $uniqueRule = Rule::unique('jenis_hewan', 'nama_jenis_hewan');
@@ -64,8 +88,6 @@ class JenisHewanController extends Controller
     protected function createJenisHewan(array $data)
     {
         try {
-            // return JenisHewan::create([
-            //     'nama_jenis_hewan' => $this->formatNamaJenisHewan($data['nama_jenis_hewan']),
             $jenisHewan = DB::table('jenis_hewan')->insert([
                 'nama_jenis_hewan' => $this->formatNamaJenisHewan($data['nama_jenis_hewan']),  
         ]);
