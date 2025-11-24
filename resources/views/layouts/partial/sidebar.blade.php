@@ -13,6 +13,7 @@
         <ul class="flex flex-col pl-0 mb-0">
            
             <!-- Dashboard -->
+            @if(Auth::user()->hasRole('Administrator'))
             @php
                 $active = request()->routeIs('admin.dashboard');
             @endphp
@@ -305,20 +306,114 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Penempatan Role User</span>
                 </a>
             </li>
-            {{-- Dashboard Resepsionis --}}
-                {{-- @php $active = request()->routeIs('resepsionis.dashboard'); @endphp
+            @endif
+            @if(Auth::user()->hasRole('resepsionis'))
+                <li class="w-full mt-2">
+                    <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Resepsionis</h6>
+                </li>
+
                 <li class="mt-0.5 w-full">
-                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ $active ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.dashboard') }}">
-                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ $active ? 'bg-gradient-to-tl from-blue-600 to-cyan-400' : 'bg-white' }}">
-                            <i class="fas fa-tv {{ $active ? 'text-white' : 'text-slate-700' }}"></i>
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('resepsionis.dashboard') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.dashboard') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('resepsionis.dashboard') ? 'bg-gradient-to-tl from-blue-600 to-cyan-400' : 'bg-white' }}">
+                            <i class="fas fa-tv {{ request()->routeIs('resepsionis.dashboard') ? 'text-white' : 'text-slate-700' }}"></i>
                         </div>
                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
                     </a>
-                </li> --}}
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('resepsionis.registrasi.pemilik') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.registrasi.pemilik') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('resepsionis.registrasi.pemilik') ? 'bg-gradient-to-tl from-blue-600 to-cyan-400' : 'bg-white' }}">
+                            <i class="fas fa-user-plus {{ request()->routeIs('resepsionis.registrasi.pemilik') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Registrasi Pemilik</span>
+                    </a>
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('resepsionis.registrasi.pet') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.registrasi.pet') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('resepsionis.registrasi.pet') ? 'bg-gradient-to-tl from-blue-600 to-cyan-400' : 'bg-white' }}">
+                            <i class="fas fa-dog {{ request()->routeIs('resepsionis.registrasi.pet') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Registrasi Pet</span>
+                    </a>
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('resepsionis.registrasi.temudokter') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.registrasi.temudokter') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('resepsionis.registrasi.temudokter') ? 'bg-gradient-to-tl from-blue-600 to-cyan-400' : 'bg-white' }}">
+                            <i class="fas fa-clipboard-list {{ request()->routeIs('resepsionis.registrasi.temudokter') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Temu Dokter</span>
+                    </a>
+                </li>
+            @endif
+
+
+            {{-- ================= MENU DOKTER ================= --}}
+            @if(Auth::user()->hasRole('dokter'))
+                <li class="w-full mt-2">
+                    <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Dokter</h6>
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('dokter.dashboard') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('dokter.dashboard') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('dokter.dashboard') ? 'bg-gradient-to-tl from-green-600 to-lime-400' : 'bg-white' }}">
+                            <i class="fas fa-user-md {{ request()->routeIs('dokter.dashboard') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('dokter.detail-rekam-medis.index') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('dokter.detail-rekam-medis.index') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('dokter.detail-rekam-medis.index') ? 'bg-gradient-to-tl from-green-600 to-lime-400' : 'bg-white' }}">
+                            <i class="fas fa-stethoscope {{ request()->routeIs('dokter.detail-rekam-medis.index') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Rekam Medis</span>
+                    </a>
+                </li>
+            @endif
+
+
+            {{-- ================= MENU PERAWAT ================= --}}
+            @if(Auth::user()->hasRole('perawat'))
+                <li class="w-full mt-2">
+                    <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Perawat</h6>
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('perawat.dashboard') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('perawat.dashboard') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('perawat.dashboard') ? 'bg-gradient-to-tl from-orange-600 to-yellow-400' : 'bg-white' }}">
+                            <i class="fas fa-user-nurse {{ request()->routeIs('perawat.dashboard') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="mt-0.5 w-full">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('perawat.rekam-medis.index') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('perawat.rekam-medis.index') }}">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('perawat.rekam-medis.index') ? 'bg-gradient-to-tl from-orange-600 to-yellow-400' : 'bg-white' }}">
+                            <i class="fas fa-notes-medical {{ request()->routeIs('perawat.rekam-medis.index') ? 'text-white' : 'text-slate-700' }}"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Input TTV</span>
+                    </a>
+                </li>
+            @endif
+            <li class="w-full mt-4">
+                <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Account</h6>
+            </li>
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 {{ request()->is('billing') ? 'shadow-soft-xl bg-white' : '' }} text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('logout') }}">
-                    <span class="ml-1 font-bold text-red-500 duration-300 pointer-events-none wopacity-100 ease-soft">Logout</span>
-                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors text-slate-500 hover:text-red-500 cursor-pointer"
+                       onclick="event.preventDefault(); this.closest('form').submit();">
+                        <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                            <i class="text-red-500 fas fa-sign-out-alt"></i>
+                        </div>
+                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign Out</span>
+                    </a>
+                </form>
             </li>
 
         </ul>

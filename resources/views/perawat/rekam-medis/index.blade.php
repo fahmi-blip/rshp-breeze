@@ -1,221 +1,41 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-            * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
+@extends('layouts.partial.main')
 
-body {
-  background-color: #f5f6fa;
-  color: #333;
-}
-table {
-    width: 100%;
-    margin: 1rem 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-}
-th {
-    padding: 12px;
-    background: blue;
-    color: white;
-    font-weight: 600;
-}
-.dashboard-container {
-  display: flex;
-  height: 100vh;
-}
+@section('title', 'Input Rekam Medis (TTV)')
+@section('page-title', 'Rekam Medis')
 
-/* ===== SIDEBAR ===== */
-.sidebar {
-  width: 250px;
-  background-color: #ffff;
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 0;
-  position: fixed;
-  height: 100%;
-}
+@section('content')
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            
+            <div class="flex items-center justify-between p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6 class="font-bold">Daftar Pemeriksaan TTV</h6>
+                {{-- Tombol Tambah TTV jika diperlukan --}}
+            </div>
 
-.sidebar-logo {
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar-menu li {
-  margin: 5px 0;
-}
-
-.sidebar-menu a {
-  display: block;
-  padding: 12px 20px;
-  color: #000;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.sidebar-menu a:hover,
-.sidebar-menu a.active {
-  background-color: #2f3640;
-  color: #fff;
-}
-
-.menu-header {
-  margin-top: 15px;
-  padding: 12px 20px;
-  font-size: 0.9em;
-  text-transform: uppercase;
-  color: #aaa;
-  letter-spacing: 1px;
-}
-
-.logout-btn {
-  color: #ff4b5c !important;
-  font-weight: bold;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  margin-left: 250px;
-  padding: 30px;
-  width: 100%;
-}
-
-.main-header {
-  background-color: #fff;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  margin-bottom: 25px;
-}
-
-.content {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn-add {
-    text-decoration: none;
-    display: inline-block;
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: #fff;
-    font-size: 16px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
-    transition: 0.3s;
-}
-
-.btn-add:hover {
-    background: linear-gradient(135deg, #0056b3, #004080);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-td a {
-    display: inline-block;
-    margin: 6px 4px;
-    padding: 8px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-}
-
-td a.edit-btn {
-    background: linear-gradient(135deg, #28a745, #218838);
-    box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
-}
-td a.edit-btn:hover {
-    background: linear-gradient(135deg, #218838, #1e7e34);
-}
-
-td a.reset-btn {
-    background: linear-gradient(135deg, #ffc107, #e0a800);
-    box-shadow: 0 3px 8px rgba(255, 193, 7, 0.3);
-    color: #fff;
-}
- a.reset-btn:hover {
-    background: linear-gradient(135deg, #e0a800, #c69500);
-}
-td a.delete-btn {
-    background: linear-gradient(135deg, #a72828, #882121);
-    box-shadow: 0 3px 8px rgba(167, 40, 40, 0.3);    
-}
-td a.delete-btn:hover {
-    background: linear-gradient(135deg, #882121, #7e1e1e);
-}
-
-
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  .main-content {
-    margin-left: 200px;
-  }
-}
-
-@media (max-width: 600px) {
-  .sidebar {
-    position: fixed;
-    left: -250px;
-    transition: left 0.3s;
-  }
-
-  .sidebar.active {
-    left: 0;
-  }
-
-  .main-content {
-    margin-left: 0;
-  }
-}
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-          <h2 class="sidebar-logo">RSHP</h2>
-          <ul class="sidebar-menu">
-            <li><a href="{{ route('perawat.dashboard') }}" >Dashboard</a></li>
-                <li><a href="{{ route('perawat.rekam-medis.index') }}" class="active">Rekam Medis</a></li>
-                <li><a href="{{ route('login') }}" class="logout-btn">Logout</a></li>
-          </ul>
-        </aside>
-        <main class="main-content">
-    
-          <section class="content">
-            <h2>Rekam Medis</h2>
-          </section>
-        </main>
-      </div>
+            <div class="flex-auto px-0 pt-0 pb-2">
+                <div class="p-0 overflow-x-auto">
+                    <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                        <thead class="align-bottom">
+                            <tr>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Antrian</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama Pet</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Berat Badan</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Suhu</th>
+                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- Dummy Data --}}
+                            <tr>
+                                <td colspan="6" class="py-4 text-xs text-center text-slate-400">Tidak ada data pemeriksaan.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

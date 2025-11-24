@@ -1,378 +1,69 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Registrasi Pet</title>
-    <style>
-    * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
+@extends('layouts.partial.main')
 
-body {
-  background-color: #f5f6fa;
-  color: #333;
-}
-table {
-    width: 100%;
-    margin: 1rem 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-}
-th {
-    padding: 12px;
-    background: blue;
-    color: white;
-    font-weight: 600;
-}
-.dashboard-container {
-  display: flex;
-  height: 100vh;
-}
+@section('title', 'Registrasi Pet')
+@section('page-title', 'Registrasi Pet')
 
-/* ===== SIDEBAR ===== */
-.sidebar {
-  width: 250px;
-  background-color: #ffff;
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 0;
-  position: fixed;
-  height: 100%;
-}
+@section('content')
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            
+            <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6 class="font-bold">Form Registrasi Hewan Peliharaan</h6>
+            </div>
 
-.sidebar-logo {
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
+            <div class="flex-auto p-6">
+                {{-- Sesuaikan route action ini --}}
+                <form action="#" method="POST">
+                    @csrf
+                    
+                    <div class="mb-4">
+                        <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Pilih Pemilik</label>
+                        <select name="idpemilik" required class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none">
+                            <option value="">-- Cari Pemilik --</option>
+                            {{-- @foreach($pemilik as $p) <option value="{{ $p->id }}">{{ $p->nama }}</option> @endforeach --}}
+                        </select>
+                    </div>
 
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-}
+                    <div class="flex flex-wrap -mx-3">
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Nama Pet</label>
+                            <input type="text" name="nama_pet" required class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" placeholder="Nama hewan" />
+                        </div>
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Tanggal Lahir (Estimasi)</label>
+                            <input type="date" name="tanggal_lahir" required class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" />
+                        </div>
+                    </div>
 
-.sidebar-menu li {
-  margin: 5px 0;
-}
+                    <div class="flex flex-wrap -mx-3">
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Jenis Hewan</label>
+                            <select name="idjenis_hewan" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none">
+                                <option value="">-- Pilih Jenis --</option>
+                            </select>
+                        </div>
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Ras Hewan</label>
+                            <select name="idras_hewan" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none">
+                                <option value="">-- Pilih Ras --</option>
+                            </select>
+                        </div>
+                    </div>
 
-.sidebar-menu a {
-  display: block;
-  padding: 12px 20px;
-  color: #000;
-  text-decoration: none;
-  transition: 0.3s;
-}
+                    <div class="mb-4">
+                        <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Warna / Tanda Khusus</label>
+                        <input type="text" name="warna_tanda" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" placeholder="Contoh: Putih, ada tompel di kuping kanan" />
+                    </div>
 
-.sidebar-menu a:hover,
-.sidebar-menu a.active {
-  background-color: #2f3640;
-  color: #fff;
-}
-
-.menu-header {
-  margin-top: 15px;
-  padding: 12px 20px;
-  font-size: 0.9em;
-  text-transform: uppercase;
-  color: #aaa;
-  letter-spacing: 1px;
-}
-
-.logout-btn {
-  color: #ff4b5c !important;
-  font-weight: bold;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  margin-left: 250px;
-  padding: 30px;
-  width: 100%;
-}
-
-.main-header {
-  background-color: #fff;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  margin-bottom: 25px;
-}
-
-.content {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn-add {
-    text-decoration: none;
-    display: inline-block;
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: #fff;
-    font-size: 16px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
-    transition: 0.3s;
-}
-
-.btn-add:hover {
-    background: linear-gradient(135deg, #0056b3, #004080);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-.form-user input[type="text"],
-.form-user input[type="email"],
-.form-user input[type="password"] {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 4px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-.form-user input[type="submit"] {
-    width: 100%;
-    padding: 12px 15px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.form-user input[type="submit"]:hover {
-    background: linear-gradient(135deg, #0056b3, #004080);
-}
-
-.form-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    background: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.form-container h3 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-}
-
-.form-container label {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 6px;
-    color: #34495e;
-}
-
-.form-container input[type="text"],
-.form-container input[type="email"],
-.form-container input[type="password"],
-.form-container select {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-container input:focus,
-.form-container select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 6px rgba(0,123,255,0.3);
-    outline: none;
-}
-
-.form-container button {
-    width: 100%;
-    padding: 12px 15px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.form-container button:hover {
-    background: linear-gradient(135deg, #0056b3, #004080);
-}
-td a {
-    display: inline-block;
-    margin: 6px 4px;
-    padding: 8px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-}
-
-td a.edit-btn {
-    background: linear-gradient(135deg, #28a745, #218838);
-    box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
-}
-td a.edit-btn:hover {
-    background: linear-gradient(135deg, #218838, #1e7e34);
-}
-
-td a.reset-btn {
-    background: linear-gradient(135deg, #ffc107, #e0a800);
-    box-shadow: 0 3px 8px rgba(255, 193, 7, 0.3);
-    color: #fff;
-}
- a.reset-btn:hover {
-    background: linear-gradient(135deg, #e0a800, #c69500);
-}
-td a.delete-btn {
-    background: linear-gradient(135deg, #a72828, #882121);
-    box-shadow: 0 3px 8px rgba(167, 40, 40, 0.3);    
-}
-td a.delete-btn:hover {
-    background: linear-gradient(135deg, #882121, #7e1e1e);
-}
-
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  .main-content {
-    margin-left: 200px;
-  }
-}
-
-@media (max-width: 600px) {
-  .sidebar {
-    position: fixed;
-    left: -250px;
-    transition: left 0.3s;
-  }
-
-  .sidebar.active {
-    left: 0;
-  }
-
-  .main-content {
-    margin-left: 0;
-  }
-}
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-          <h2 class="sidebar-logo">RSHP</h2>
-          <ul class="sidebar-menu">
-            <li><a href="{{ route('resepsionis.dashboard') }}" >Dashboard</a></li>
-                <li><a href="{{ route('resepsionis.registrasi.pemilik') }}">Registrasi Pemilik</a></li>
-                <li><a href="{{ route('resepsionis.registrasi.pet') }}" class="active">Registrasi Pet</a></li>
-                <li><a href="{{ route('resepsionis.registrasi.temudokter') }}">Registrasi Temu Dokter</a></li>
-                <li><a href="{{ route('login') }}" class="logout-btn">Logout</a></li>
-          </ul>
-        </aside>
-        <main class="main-content">
-          <section class="content">
-            <h2>Registrasi Pet Baru</h2>
-          </section>
-          {{-- <div class="form-container" style="margin-top: 80px;">
-            <h3>Formulir Registrasi Pet</h3>
-            <form action="registrasi_pet.php" method="post" class="form-user">
-                <label for="idpemilik">Pemilik:</label>
-                <select id="idpemilik" name="idpemilik" required>
-                    <option value="">-- Pilih Pemilik --</option>
-                    <?php while ($row = $pemilik_result->fetch_assoc()): ?>
-                        <option value="<?= $row['idpemilik']; ?>"><?= htmlspecialchars($row['nama']); ?></option>
-                    <?php endwhile; ?>
-                </select>
-
-                <label for="nama_pet">Nama Pet:</label>
-                <input type="text" id="nama_pet" name="nama_pet" required>
-
-                <label for="idjenis_hewan">Jenis Hewan:</label>
-                <select id="idjenis_hewan" name="idjenis_hewan" required>
-                    <option value="">-- Pilih Jenis Hewan --</option>
-                    <?php while ($row = $jenis_result->fetch_assoc()): ?>
-                        <option value="<?= $row['idjenis_hewan']; ?>"><?= htmlspecialchars($row['nama_jenis_hewan']); ?></option>
-                    <?php endwhile; ?>
-                </select>
-
-                <label for="idras_hewan">Ras Hewan:</label>
-                <select id="idras_hewan" name="idras_hewan" required>
-                    <option value="">-- Pilih Ras Hewan --</option>
-                </select>
-
-                <label for="tanggal_lahir">Tanggal Lahir:</label>
-                <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
-
-                <label for="jenis_kelamin">Jenis Kelamin:</label>
-                <select id="jenis_kelamin" name="jenis_kelamin" required>
-                    <option value="">-- Pilih Jenis Kelamin --</option>
-                    <option value="J">Jantan</option>
-                    <option value="B">Betina</option>
-                </select>
-
-                <label for="warna_tanda">Warna / Tanda:</label>
-                <input type="text" id="warna_tanda" name="warna_tanda">
-
-                <button type="submit">Daftarkan Pet</button>
-            </form>
-       </div> --}}
-       
-    </main>
+                    <div class="mt-6 text-center">
+                        <button type="submit" class="inline-block w-full px-6 py-3 text-xs font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-purple-700 to-pink-500 hover:scale-102 active:opacity-85 hover:shadow-soft-xs leading-pro ease-soft-in tracking-tight-rem sm:w-auto">
+                            Simpan Data Pet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    {{-- <script>
-    $(document).ready(function(){
-        $('#idjenis_hewan').change(function(){
-            var idjenis = $(this).val();
-            if(idjenis){
-                $.ajax({
-                    url: "get_ras.php",
-                    type: "GET",
-                    data: { idjenis: idjenis },
-                    success: function(data){
-                        $('#idras_hewan').html(data);
-                    },
-                    error: function(){
-                        alert("Terjadi kesalahan saat memuat data ras hewan.");
-                    }
-                });
-            } else {
-                $('#idras_hewan').html('<option value="">-- Pilih Ras Hewan --</option>');
-            }
-        });
-    });
-    </script> --}}
-        </main>
-      </div>
-    </div>
-</body>
-</html>
+</div>
+@endsection
