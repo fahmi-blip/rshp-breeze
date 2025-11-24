@@ -1,226 +1,80 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar User</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", sans-serif;
-        }
+@extends('layouts.partial.main')
 
-        body {
-            background-color: #f5f6fa;
-            color: #333;
-        }
-        
-        table {
-            width: 100%;
-            margin: 1rem 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-collapse: collapse;
-        }
-        
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th {
-            padding: 12px;
-            background: blue;
-            color: white;
-            font-weight: 600;
-            text-align: left;
-        }
-        
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
+@section('title', 'Daftar User')
+@section('page-title', 'Manajemen User')
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: 250px;
-            background-color: #ffff;
-            color: #000;
-            display: flex;
-            flex-direction: column;
-            padding: 20px 0;
-            position: fixed;
-            height: 100%;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-
-        .sidebar-logo {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar-menu li {
-            margin: 5px 0;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 12px 20px;
-            color: #000;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background-color: #2f3640;
-            color: #fff;
-        }
-
-        .logout-btn {
-            color: #ff4b5c !important;
-            font-weight: bold;
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            margin-left: 250px;
-            padding: 30px;
-            width: 100%;
-        }
-
-        .main-header {
-            background-color: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-        }
-
-        .btn-add {
-            text-decoration: none;
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: #fff;
-            font-size: 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-align: center;
-            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-add:hover {
-            background: linear-gradient(135deg, #0056b3, #004080);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-        }
-
-        .alert {
-            padding: 12px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 200px;
-            }
-
-            .main-content {
-                margin-left: 200px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <h2 class="sidebar-logo">RSHP</h2>
-            <ul class="sidebar-menu">
-                <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('admin.jenis-hewan.index') }}">Jenis Hewan</a></li>
-                <li><a href="{{ route('admin.pemilik.index') }}">Pemilik</a></li>
-                <li><a href="{{ route('admin.ras-hewan.index') }}">Ras Hewan</a></li>
-                <li><a href="{{ route('admin.kategori.index') }}">Kategori</a></li>
-                <li><a href="{{ route('admin.kategori-klinis.index') }}">Kategori Klinis</a></li>
-                <li><a href="{{ route('admin.tindakan-terapi.index') }}">Tindakan & Terapi</a></li>
-                <li><a href="{{ route('admin.user.index') }}" class="active">Manajemen User</a></li>
-                <li><a href="{{ route('admin.role.index') }}">Manajemen Role</a></li>
-                <li><a href="{{ route('admin.pet.index') }}">Data Hewan Peliharaan</a></li>
-                <li><a href="{{ route('admin.role-user.index') }}">Penetapan Role User</a></li>
-                <li><a href="{{ route('login') }}" class="logout-btn">Logout</a></li>
-            </ul>
-        </aside>
-        
-        <main class="main-content">
-            <header class="main-header">
-                <h1>Daftar User</h1>
-            </header>
-
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <a href="{{ route('admin.user.create') }}" class="btn-add" style="margin-bottom: 20px;">
-                Tambah User Baru
-            </a>
+@section('content')
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             
-            <table border="1" cellpadding="8" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!empty($user) && count($user) > 0)
-                        @foreach ($user as $index => $item)
+            <div class="flex items-center justify-between p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6 class="font-bold">Tabel User</h6>
+                <a href="{{ route('admin.user.create') }}" class="inline-block px-6 py-3 text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
+                    <i class="mr-2 fas fa-plus"></i> Tambah User
+                </a>
+            </div>
+
+            <div class="flex-auto px-0 pt-0 pb-2">
+                <div class="p-0 overflow-x-auto">
+                    <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                        <thead class="align-bottom">
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>
-                                    <button class="btn-add" style="padding: 6px 12px; font-size: 12px;">
-                                        Edit
-                                    </button>
-                                    <button class="btn-add" style="padding: 6px 12px; font-size: 12px; background: linear-gradient(135deg, #dc3545, #c82333);">
-                                        Hapus
-                                    </button>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama Lengkap</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Email</th>
+                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($user as $index => $item)
+                            <tr>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <div class="px-6 py-1">
+                                        <p class="mb-0 text-xs font-semibold leading-tight">{{ $index + 1 }}</p>
+                                    </div>
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <div class="px-6 py-1">
+                                        <div class="flex px-2 py-1">
+                                            <div class="flex flex-col justify-center">
+                                                <h6 class="mb-0 text-sm font-semibold leading-tight">{{ $item->nama }}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <div class="px-6 py-1">
+                                        <p class="mb-0 text-xs font-semibold leading-tight text-slate-400">{{ $item->email }}</p>
+                                    </div>
+                                </td>
+                                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    {{-- Tombol Edit (Jika ada route edit nanti) --}}
+                                    <a href="#" class="mx-2 mr-2 text-xs font-semibold leading-tight text-slate-400 hover:text-slate-700">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    
+                                    {{-- Tombol Hapus (Perlu penyesuaian jika ada route delete) --}}
+                                    {{-- 
+                                    <form action="{{ route('admin.user.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-xs font-semibold leading-tight text-red-500 bg-transparent border-none cursor-pointer hover:text-red-700">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form> 
+                                    --}}
                                 </td>
                             </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="4" style="text-align:center;">Tidak ada data user.</td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-        </main>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="py-4 text-xs text-center text-slate-400">Tidak ada data user.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

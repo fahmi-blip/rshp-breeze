@@ -1983,6 +1983,11 @@ h6 {
   --tw-gradient-to: rgb(245 57 57 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-pink-600 {
+    --tw-gradient-from: #db2777 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(219 39 119 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 
 .from-red-600 {
   --tw-gradient-from: #ea0606 var(--tw-gradient-from-position);
@@ -2031,7 +2036,9 @@ h6 {
 .to-rose-400 {
   --tw-gradient-to: #ff667c var(--tw-gradient-to-position);
 }
-
+.to-pink-400 {
+    --tw-gradient-to: #f472b6 var(--tw-gradient-to-position);
+}
 .to-slate-300 {
   --tw-gradient-to: #a8b8d8 var(--tw-gradient-to-position);
 }

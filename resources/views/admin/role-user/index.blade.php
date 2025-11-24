@@ -1,269 +1,85 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-            * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
+@extends('layouts.partial.main')
 
-body {
-  background-color: #f5f6fa;
-  color: #333;
-}
-table {
-    width: 100%;
-    margin: 1rem 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-}
-th {
-    padding: 12px;
-    background: blue;
-    color: white;
-    font-weight: 600;
-}
-.dashboard-container {
-  display: flex;
-  height: 100vh;
-}
+@section('title', 'Daftar Role User')
+@section('page-title', 'Role User')
 
-/* ===== SIDEBAR ===== */
-.sidebar {
-  width: 250px;
-  background-color: #ffff;
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 0;
-  position: fixed;
-  height: 100%;
-}
+@section('content')
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            
+            <div class="flex items-center justify-between p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6 class="font-bold">Tabel Role User</h6>
+                <a href="{{ route('admin.role-user.create') }}" class="inline-block px-6 py-3 text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
+                    <i class="mr-2 fas fa-plus"></i> Tambah
+                </a>
+            </div>
 
-.sidebar-logo {
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar-menu li {
-  margin: 5px 0;
-}
-
-.sidebar-menu a {
-  display: block;
-  padding: 12px 20px;
-  color: #000;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.sidebar-menu a:hover,
-.sidebar-menu a.active {
-  background-color: #2f3640;
-  color: #fff;
-}
-
-.menu-header {
-  margin-top: 15px;
-  padding: 12px 20px;
-  font-size: 0.9em;
-  text-transform: uppercase;
-  color: #aaa;
-  letter-spacing: 1px;
-}
-
-.logout-btn {
-  color: #ff4b5c !important;
-  font-weight: bold;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  margin-left: 250px;
-  padding: 30px;
-  width: 100%;
-}
-
-.main-header {
-  background-color: #fff;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  margin-bottom: 25px;
-}
-
-.content {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn-add {
-    text-decoration: none;
-    display: inline-block;
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: #fff;
-    font-size: 16px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
-    transition: 0.3s;
-}
-
-.btn-add:hover {
-    background: linear-gradient(135deg, #0056b3, #004080);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-td a {
-    display: inline-block;
-    margin: 6px 4px;
-    padding: 8px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-}
-
-td a.edit-btn {
-    background: linear-gradient(135deg, #28a745, #218838);
-    box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
-}
-td a.edit-btn:hover {
-    background: linear-gradient(135deg, #218838, #1e7e34);
-}
-
-td a.reset-btn {
-    background: linear-gradient(135deg, #ffc107, #e0a800);
-    box-shadow: 0 3px 8px rgba(255, 193, 7, 0.3);
-    color: #fff;
-}
- a.reset-btn:hover {
-    background: linear-gradient(135deg, #e0a800, #c69500);
-}
-td a.delete-btn {
-    background: linear-gradient(135deg, #a72828, #882121);
-    box-shadow: 0 3px 8px rgba(167, 40, 40, 0.3);    
-}
-td a.delete-btn:hover {
-    background: linear-gradient(135deg, #882121, #7e1e1e);
-}
-
-
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  .main-content {
-    margin-left: 200px;
-  }
-}
-
-@media (max-width: 600px) {
-  .sidebar {
-    position: fixed;
-    left: -250px;
-    transition: left 0.3s;
-  }
-
-  .sidebar.active {
-    left: 0;
-  }
-
-  .main-content {
-    margin-left: 0;
-  }
-}
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-          <h2 class="sidebar-logo">RSHP</h2>
-          <ul class="sidebar-menu">
-            <li><a href="{{ route('admin.dashboard') }}" >Dashboard</a></li>
-                <li><a href="{{ route('admin.jenis-hewan.index') }}" >Jenis Hewan</a></li>
-                <li><a href="{{ route('admin.pemilik.index') }}" >Pemilik</a></li>
-                <li><a href="{{ route('admin.ras-hewan.index') }}" >Ras Hewan</a></li>
-                <li><a href="{{ route('admin.kategori.index') }}" >Kategori</a></li>
-                <li><a href="{{ route('admin.kategori-klinis.index') }}" >Kategori Klinis</a></li>
-                <li><a href="{{ route('admin.tindakan-terapi.index') }}">Tindakan & Terapi</a></li>
-                <li><a href="{{ route('admin.user.index') }}">Manajemen User</a></li>
-                <li><a href="{{ route('admin.role.index') }}" >Manajemen Role</a></li>
-                <li><a href="{{ route('admin.pet.index') }}" >Data Hewan Peliharaan</a></li>
-                <li><a href="{{ route('admin.role-user.index') }}" class="active">Penetapan Role User</a></li>
-                <li><a href="{{ route('login') }}" class="logout-btn">Logout</a></li>
-          </ul>
-        </aside>
-        <main class="main-content">
-          <header class="main-header">
-            <h1>Daftar Role User</h1>
-          </header>
-        <a href="{{ route('admin.role-user.create') }}" class="btn-add" style="margin-bottom: 20px;">Tambah Data Pet</a>  
-        
-    <table border="1" cellpadding="8" cellspacing="0" style="margin:auto; width:90%;">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Role</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (!empty($roleUser))
-                @foreach ($roleUser as $index => $item)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $item ->user->nama}}</td>
-                        <td>{{ $item ->role->nama_role}}</td>
-                        <td>{{ $item -> status }}</td>
-                    </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="3" style="text-align:center;">Tidak ada data jenis hewan.</td>
-                </tr>
-             @endif
-        </tbody>
-    </table>
-
-
-
-        </main>
-      </div>
+            <div class="flex-auto px-0 pt-0 pb-2">
+                <div class="p-0 overflow-x-auto">
+                    <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                        <thead class="align-bottom">
+                            <tr>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama User</th>
+                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Role</th>
+                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
+                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($roleUser as $index => $item)
+                            <tr>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <div class="px-6 py-1">
+                                        <p class="mb-0 text-xs font-semibold leading-tight">{{ $index + 1 }}</p>
+                                    </div>
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <div class="px-6 py-1">
+                                        <h6 class="mb-0 text-sm font-semibold leading-tight">{{ $item->user->nama ?? '-' }}</h6>
+                                        <p class="mb-0 text-xs leading-tight text-slate-400">{{ $item->user->email ?? '' }}</p>
+                                    </div>
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <div class="px-6 py-1">
+                                        <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->role->nama_role ?? '-' }}</p>
+                                    </div>
+                                </td>
+                                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    @if($item->status == 1)
+                                        <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                            Aktif
+                                        </span>
+                                    @else
+                                        <span class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                            Non Aktif
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <a href="{{ route('admin.role-user.edit', $item->idrole_user) }}" class="mx-2 mr-2 text-xs font-semibold leading-tight text-slate-400 hover:text-slate-700">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    {{-- Pastikan route destroy sesuai dengan definisi route Anda (biasanya butuh ID) --}}
+                                    <form action="{{ route('admin.role-user.delete', $item->idrole_user) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-xs font-semibold leading-tight text-red-500 bg-transparent border-none cursor-pointer hover:text-red-700">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="py-4 text-xs text-center text-slate-400">Tidak ada data role user.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
-    
-
-
-    
-    
-
-
-
-    
+</div>
+@endsection

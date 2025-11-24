@@ -1,168 +1,72 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Pet</title>
-    <style>
-        body { 
-            font-family: "Segoe UI", sans-serif; 
-            background-color: #f5f6fa; 
-            padding: 20px;
-        }
-        .container { 
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px; 
-        }
-        .card { 
-            background: #fff; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-        }
-        .card-header { 
-            padding: 1rem; 
-            border-bottom: 1px solid #ddd;
-            background: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-        }
-        .card-header h4 {
-            margin: 0;
-            color: #333;
-        }
-        .card-body { 
-            padding: 1.5rem; 
-        }
-        .form-label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: 600; 
-            color: #333;
-        }
-        .form-control, .form-select { 
-            width: 100%; 
-            padding: 10px; 
-            border-radius: 5px; 
-            border: 1px solid #ccc; 
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        .form-control:focus, .form-select:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
-        }
-        .is-invalid { 
-            border-color: red; 
-        }
-        .invalid-feedback { 
-            color: red; 
-            font-size: 0.875em; 
-            margin-top: 5px;
-            display: block;
-        }
-        .alert {
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .btn { 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            text-decoration: none; 
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .btn-primary { 
-            background-color: #007bff; 
-            color: white; 
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .btn-secondary { 
-            background-color: #6c757d; 
-            color: white; 
-        }
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-        .d-flex { 
-            display: flex; 
-        }
-        .justify-content-between { 
-            justify-content: space-between; 
-        }
-        .mb-3 { 
-            margin-bottom: 1rem; 
-        }
-        .ms-auto {
-            margin-left: auto;
-        }
-        .row {
-            display: flex;
-            gap: 15px;
-        }
-        .col-6 {
-            flex: 1;
-        }
-        small.text-muted {
-            color: #6c757d;
-            font-size: 0.875em;
-        }
-        .required {
-            color: red;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h4>Tambah Ras Hewan Baru</h4>
+@extends('layouts.partial.main')
+
+@section('title', 'Tambah Ras Hewan')
+@section('page-title', 'Tambah Ras Hewan')
+
+@section('content')
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            
+            <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6 class="font-bold">Form Tambah Ras Hewan</h6>
             </div>
-            <div class="card-body">
+
+            <div class="flex-auto p-6">
                 @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
+                    <div alert class="relative w-full p-4 mb-4 text-white border border-red-300 border-solid rounded-lg bg-gradient-to-tl from-red-600 to-rose-400">{{ session('error') }}</div>
+
                 @endif
-                
-    <form action="{{ route('admin.ras-hewan.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="nama_ras">Nama Ras</label>
-            <input type="text" id="nama_ras" name="nama_ras" required>
-        </div>
-        <div class="form-group">
-            <label for="idjenis_hewan">Jenis Hewan</label>
-            <select id="idjenis_hewan" name="idjenis_hewan" required>
-                <option value="">Pilih Jenis Hewan</option>
-                @foreach($jenisHewan as $item)
-                    <option value="{{ $item->idjenis_hewan }}">{{ $item->nama_jenis_hewan }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="d-flex justify-content-between">
-                        <a href="{{ route('admin.ras-hewan.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Kembali
+
+                <form action="{{ route('admin.ras-hewan.store') }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-4">
+                        <label for="nama_ras" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                            Nama Ras <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="nama_ras" name="nama_ras" 
+                               value="{{ old('nama_ras') }}" required 
+                               placeholder="Contoh: Persia, Anggora, Bulldog"
+                               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('nama_ras') border-red-500 @enderror" />
+                        @error('nama_ras')
+                            <p alert class="relative w-full p-4 mb-4 text-white border border-red-300 border-solid rounded-lg bg-gradient-to-tl from-red-600 to-rose-400">{{ $message }}</p>
+                        @enderror
+                         <p class="mt-1 ml-1 text-xs text-slate-400">Isi nama minimal 3 huruf.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="idjenis_hewan" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                            Jenis Hewan <span class="text-red-500">*</span>
+                        </label>
+                        <select id="idjenis_hewan" name="idjenis_hewan" required
+                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('idjenis_hewan') border-red-500 @enderror">
+                            <option value="">-- Pilih Jenis Hewan --</option>
+                            @foreach($jenisHewan as $item)
+                                <option value="{{ $item->idjenis_hewan }}" {{ old('idjenis_hewan') == $item->idjenis_hewan ? 'selected' : '' }}>
+                                    {{ $item->nama_jenis_hewan }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('idjenis_hewan')
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 ml-1 text-xs text-slate-400">Pilih jenis hewan yang sesuai dengan ras ini.</p>
+                    </div>
+
+                    <div class="flex items-center justify-end mt-6">
+                        <a href="{{ route('admin.ras-hewan.index') }}" 
+                           class="inline-block px-6 py-3 mb-0 mr-2 text-xs font-bold text-center align-middle transition-all bg-transparent border rounded-lg cursor-pointer text-slate-700 border-slate-700 leading-pro ease-soft-in shadow-soft-xs hover:scale-102 active:opacity-85 hover:bg-slate-700 hover:text-white hover:shadow-soft-xs">
+                            <i class="mr-1 fas fa-arrow-left"></i> Kembali
                         </a>
-                        <button type="submit" class="btn btn-primary ms-auto">
-                            <i class="fas fa-save"></i> Simpan Data
+                        <button type="submit" 
+                                class="inline-block px-6 py-3 mb-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:scale-102 active:opacity-85 hover:shadow-soft-xs bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25">
+                            <i class="mr-1 fas fa-save"></i> Simpan Data
                         </button>
                     </div>
-    </form>
-  </div>
+                </form>
             </div>
         </div>
-    </div>  
-</body>
-</html>
+    </div>
+</div>
+@endsection

@@ -1,269 +1,135 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Pet</title>
-    <style>
-        body { 
-            font-family: "Segoe UI", sans-serif; 
-            background-color: #f5f6fa; 
-            padding: 20px;
-        }
-        .container { 
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px; 
-        }
-        .card { 
-            background: #fff; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-        }
-        .card-header { 
-            padding: 1rem; 
-            border-bottom: 1px solid #ddd;
-            background: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-        }
-        .card-header h4 {
-            margin: 0;
-            color: #333;
-        }
-        .card-body { 
-            padding: 1.5rem; 
-        }
-        .form-label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: 600; 
-            color: #333;
-        }
-        .form-control, .form-select { 
-            width: 100%; 
-            padding: 10px; 
-            border-radius: 5px; 
-            border: 1px solid #ccc; 
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        .form-control:focus, .form-select:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
-        }
-        .is-invalid { 
-            border-color: red; 
-        }
-        .invalid-feedback { 
-            color: red; 
-            font-size: 0.875em; 
-            margin-top: 5px;
-            display: block;
-        }
-        .alert {
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .btn { 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            text-decoration: none; 
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .btn-primary { 
-            background-color: #007bff; 
-            color: white; 
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .btn-secondary { 
-            background-color: #6c757d; 
-            color: white; 
-        }
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-        .d-flex { 
-            display: flex; 
-        }
-        .justify-content-between { 
-            justify-content: space-between; 
-        }
-        .mb-3 { 
-            margin-bottom: 1rem; 
-        }
-        .ms-auto {
-            margin-left: auto;
-        }
-        .row {
-            display: flex;
-            gap: 15px;
-        }
-        .col-6 {
-            flex: 1;
-        }
-        small.text-muted {
-            color: #6c757d;
-            font-size: 0.875em;
-        }
-        .required {
-            color: red;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h4>Tambah Data Pet Baru</h4>
+@extends('layouts.partial.main')
+
+@section('title', 'Tambah Data Pet')
+@section('page-title', 'Tambah Pet')
+
+@section('content')
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            
+            <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6 class="font-bold">Form Tambah Data Pet</h6>
             </div>
-            <div class="card-body">
+
+            <div class="flex-auto p-6">
                 @if (session('error'))
-                    <div class="alert alert-danger">
+                    <div class="p-4 mb-4 text-sm text-white bg-red-500 rounded-lg shadow-soft-2xl" role="alert">
                         {{ session('error') }}
                     </div>
                 @endif
-                
+
                 <form action="{{ route('admin.pet.store') }}" method="POST">
                     @csrf
                     
-                    <!-- Nama Pet -->
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Pet <span class="required">*</span></label>
-                        <input type="text"
-                            class="form-control @error('nama') is-invalid @enderror"
-                            id="nama" 
-                            name="nama"
-                            value="{{ old('nama') }}" 
-                            required
-                            placeholder="Contoh: Milo, Kitty, dll">
+                    <div class="mb-4">
+                        <label for="nama" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                            Nama Pet <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="nama" name="nama" 
+                               value="{{ old('nama') }}" required 
+                               placeholder="Contoh: Milo, Kitty, dll"
+                               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('nama') border-red-500 @enderror" />
                         @error('nama')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="idpemilik" class="form-label">Pemilik <span class="required">*</span></label>
-                                <select class="form-select @error('idpemilik') is-invalid @enderror" 
-                                        id="idpemilik" name="idpemilik" required>
-                                    <option value="">-- Pilih Pemilik --</option>
-                                    @foreach($pemilik as $item)
-                                        <option value="{{ $item->idpemilik }}" {{ old('idpemilik') == $item->idpemilik ? 'selected' : '' }}>
-                                            {{ $item->user->nama }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('idpemilik')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <div class="flex flex-wrap -mx-3">
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label for="idpemilik" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                                Pemilik <span class="text-red-500">*</span>
+                            </label>
+                            <select id="idpemilik" name="idpemilik" required
+                                class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('idpemilik') border-red-500 @enderror">
+                                <option value="">-- Pilih Pemilik --</option>
+                                @foreach($pemilik as $item)
+                                    <option value="{{ $item->idpemilik }}" {{ old('idpemilik') == $item->idpemilik ? 'selected' : '' }}>
+                                        {{ $item->user->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('idpemilik')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="idras_hewan" class="form-label">Ras Hewan <span class="required">*</span></label>
-                                <select class="form-select @error('idras_hewan') is-invalid @enderror" 
-                                        id="idras_hewan" name="idras_hewan" required>
-                                    <option value="">-- Pilih Ras --</option>
-                                    @foreach($rasHewan as $item)
-                                        <option value="{{ $item->idras_hewan }}" {{ old('idras_hewan') == $item->idras_hewan ? 'selected' : '' }}>
-                                            {{ $item->nama_ras }} ({{ $item->jenisHewan->nama_jenis_hewan }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('idras')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-               <div class="row">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="tanggal_lahir" class="form-label">Tanggal Lahir <span class="required">*</span></label>
-                                <input type="date"
-                                    class="form-control @error('tanggal_lahir') is-invalid @enderror"
-                                    id="tanggal_lahir" 
-                                    name="tanggal_lahir"
-                                    value="{{ old('tanggal_lahir') }}" 
-                                    max="{{ date('Y-m-d') }}"
-                                    required>
-                                @error('tanggal_lahir')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span class="required">*</span></label>
-                                <select class="form-select @error('jenis_kelamin') is-invalid @enderror" 
-                                        id="jenis_kelamin" name="jenis_kelamin" required>
-                                    <option value="">-- Pilih --</option>
-                                    <option value="1" {{ old('jenis_kelamin') == '1' ? 'selected' : '' }}>Jantan</option>
-                                    <option value="0" {{ old('jenis_kelamin') == '0' ? 'selected' : '' }}>Betina</option>
-                                </select>
-                                @error('jenis_kelamin')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label for="idras_hewan" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                                Ras Hewan <span class="text-red-500">*</span>
+                            </label>
+                            <select id="idras_hewan" name="idras_hewan" required
+                                class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('idras_hewan') border-red-500 @enderror">
+                                <option value="">-- Pilih Ras --</option>
+                                @foreach($rasHewan as $item)
+                                    <option value="{{ $item->idras_hewan }}" {{ old('idras_hewan') == $item->idras_hewan ? 'selected' : '' }}>
+                                        {{ $item->nama_ras }} ({{ $item->jenisHewan->nama_jenis_hewan }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('idras_hewan')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
-                    <!-- Warna/Tanda -->
-                    <div class="mb-3">
-                        <label for="warna_tanda" class="form-label">Warna / Tanda Khusus <span class="required">*</span></label>
-                        <input type="text"
-                            class="form-control @error('warna_tanda') is-invalid @enderror"
-                            id="warna_tanda" 
-                            name="warna_tanda"
-                            value="{{ old('warna_tanda') }}" 
-                            required
-                            placeholder="Contoh: Putih dengan bercak hitam di telinga">
+                    <div class="flex flex-wrap -mx-3">
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label for="tanggal_lahir" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                                Tanggal Lahir <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" id="tanggal_lahir" name="tanggal_lahir" 
+                                   value="{{ old('tanggal_lahir') }}" required 
+                                   max="{{ date('Y-m-d') }}"
+                                   class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('tanggal_lahir') border-red-500 @enderror" />
+                            @error('tanggal_lahir')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="w-full max-w-full px-3 mb-4 md:w-1/2 md:flex-none">
+                            <label for="jenis_kelamin" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                                Jenis Kelamin <span class="text-red-500">*</span>
+                            </label>
+                            <select id="jenis_kelamin" name="jenis_kelamin" required
+                                class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('jenis_kelamin') border-red-500 @enderror">
+                                <option value="">-- Pilih Gender --</option>
+                                <option value="J" {{ old('jenis_kelamin') == 'J' ? 'selected' : '' }}>Jantan</option>
+                                <option value="B" {{ old('jenis_kelamin') == 'B' ? 'selected' : '' }}>Betina</option>
+                            </select>
+                            @error('jenis_kelamin')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="warna_tanda" class="mb-2 ml-1 text-xs font-bold text-slate-700">
+                            Warna / Tanda Khusus <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="warna_tanda" name="warna_tanda" 
+                               value="{{ old('warna_tanda') }}" required 
+                               placeholder="Contoh: Putih dengan bercak hitam di telinga"
+                               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none @error('warna_tanda') border-red-500 @enderror" />
                         @error('warna_tanda')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
-                        <small class="text-muted">Deskripsikan ciri khas hewan peliharaan</small>
+                        <p class="mt-1 ml-1 text-xs text-slate-400">Deskripsikan ciri khas hewan peliharaan.</p>
                     </div>
 
-                    <!-- Buttons -->
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('admin.pet.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Kembali
+                    <div class="flex items-center justify-end mt-6">
+                        <a href="{{ route('admin.pet.index') }}" 
+                           class="inline-block px-6 py-3 mb-0 mr-2 text-xs font-bold text-center align-middle transition-all bg-transparent border rounded-lg cursor-pointer text-slate-700 border-slate-700 leading-pro ease-soft-in shadow-soft-xs hover:scale-102 active:opacity-85 hover:bg-slate-700 hover:text-white hover:shadow-soft-xs">
+                            <i class="mr-1 fas fa-arrow-left"></i> Kembali
                         </a>
-                        <button type="submit" class="btn btn-primary ms-auto">
-                            <i class="fas fa-save"></i> Simpan Data
+                        <button type="submit" 
+                                class="inline-block px-6 py-3 mb-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:scale-102 active:opacity-85 hover:shadow-soft-xs bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25">
+                            <i class="mr-1 fas fa-save"></i> Simpan Data
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection
