@@ -13,7 +13,7 @@
             </div>
 
             <div class="flex-auto p-6">
-                {{-- Sesuaikan route action ini dengan route Anda, misal: route('resepsionis.pemilik.store') --}}
+               
                 <form action="#" method="POST">
                     @csrf
                     
