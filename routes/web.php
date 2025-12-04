@@ -142,9 +142,11 @@ Route::prefix('resepsionis')->name('resepsionis.')->middleware(['auth', 'check.r
         Route::get('/pet/create', [ResepsionisPetController::class, 'create'])->name('pet.create');
         Route::post('/pet', [ResepsionisPetController::class, 'store'])->name('pet.store');
         Route::delete('pet/{id}', [ResepsionisPetController::class, 'delete'])->name('pet.delete');
-        Route::get('/pet/create/get-ras-hewan/{idjenis_hewan}', [ResepsionisPetController::class, 'getRasByJenis'])->name('pet.get-ras-hewan');
+        Route::get('/pet/get-ras-hewan/{idjenis_hewan}', [ResepsionisPetController::class, 'getRasByJenis'])->name('pet.get-ras-hewan');
         
         Route::get('/temu-dokter', [TemuDokterController::class, 'index'])->name('temudokter');
+        Route::get('/temu-dokter/create', [TemuDokterController::class, 'create'])->name('temudokter.create');
+        Route::post('/temu-dokter', [TemuDokterController::class, 'store'])->name('temudokter.store');
     });
 });
 

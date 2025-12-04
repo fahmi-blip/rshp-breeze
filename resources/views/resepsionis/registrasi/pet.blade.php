@@ -108,40 +108,42 @@
 
 {{-- SCRIPT AJAX --}}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const jenisSelect = document.getElementById('jenis_hewan');
-        const rasSelect = document.getElementById('ras_hewan');
+document.addEventListener('DOMContentLoaded', function() {
+    const jenisSelect = document.getElementById('jenis_hewan');
+    const rasSelect = document.getElementById('ras_hewan');
 
-        jenisSelect.addEventListener('change', function() {
-            const idjenis_hewan = this.value;
-            
-            // Reset Dropdown Ras
-            rasSelect.innerHTML = '<option value="">Sedang memuat...</option>';
+    jenisSelect.addEventListener('change', function() {
+        const idjenis = this.value;
 
-            if (idjenis_hewan) {
-                fetch(`pet/get-ras-hewan/${idjenis_hewan}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        rasSelect.innerHTML = '<option value="">-- Pilih Ras --</option>';
-                        
-                        if(data.length === 0) {
-                            rasSelect.innerHTML += '<option value="">Tidak ada data ras</option>';
-                        }
+        rasSelect.innerHTML = '<option value="">Sedang memuat...</option>';
 
-                        data.forEach(ras => {
-                            // Sesuaikan 'ras.id' dan 'ras.nama_ras_hewan' dengan kolom di database Anda
-                            rasSelect.innerHTML += `<option value="${ras.idras_hewan}">${ras.nama_ras}</option>`;
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        rasSelect.innerHTML = '<option value="">Gagal memuat data</option>';
-                    });
-            } else {
-                rasSelect.innerHTML = '<option value="">-- Pilih Jenis Terlebih Dahulu --</option>';
-            }
-        });
+        if (!idjenis) {
+            rasSelect.innerHTML = '<option value="">-- Pilih Jenis Terlebih Dahulu --</option>';
+            return;
+        }
+
+        fetch(`/resepsionis/registrasi/pet/get-ras-hewan/${idjenis}`)
+            .then(res => res.json())
+            .then(data => {
+                rasSelect.innerHTML = '<option value="">-- Pilih Ras --</option>';
+
+                if (data.length === 0) {
+                    rasSelect.innerHTML += '<option value="">Tidak ada data ras</option>';
+                    return;
+                }
+
+                data.forEach(r => {
+                    rasSelect.innerHTML += `
+                        <option value="${r.idras_hewan}">${r.nama_ras}</option>
+                    `;
+                });
+            })
+            .catch(() => {
+                rasSelect.innerHTML = '<option value="">Gagal memuat data</option>';
+            });
     });
+});
 </script>
+
 
 @endsection

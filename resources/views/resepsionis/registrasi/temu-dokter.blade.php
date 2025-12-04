@@ -13,9 +13,9 @@
                     <h6 class="font-bold">Antrian Hari Ini ({{ date('d M Y') }})</h6>
                     <p class="mb-0 text-xs text-slate-400">Pantau antrian dan daftarkan pasien baru.</p>
                 </div>
-                <button class="inline-block px-6 py-3 text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
-                    <i class="mr-2 fas fa-plus"></i> Daftar Temu Dokter
-                </button>
+                <a href="{{ route('resepsionis.registrasi.temudokter.create') }}" class="inline-block px-6 py-3 text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
+                    <i class="mr-2 fas fa-plus"></i> Tambah Temu Dokter
+                </a>
             </div>
 
             <div class="flex-auto px-0 pt-0 pb-2">

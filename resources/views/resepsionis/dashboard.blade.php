@@ -27,7 +27,7 @@
                     </div>
                     
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/3 sm:flex-none">
-                        <a href="{{ route('resepsionis.registrasi.pet') }}">
+                        <a href="{{ route('resepsionis.registrasi.index_pet') }}">
                             <div class="relative flex flex-col min-w-0 break-words transition-all bg-white shadow-soft-xl rounded-2xl bg-clip-border hover:shadow-soft-2xl">
                                 <div class="flex-auto p-4 text-center">
                                     <div class="inline-block w-12 h-12 mb-2 text-center rounded-lg bg-gradient-to-tl from-blue-600 to-cyan-400">
