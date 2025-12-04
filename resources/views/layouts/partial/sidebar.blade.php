@@ -364,9 +364,9 @@
                 </li>
 
                 <li class="mt-0.5 w-full">
-                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('resepsionis.registrasi.pet') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.registrasi.pet') }}">
+                    <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 transition-colors {{ request()->routeIs('resepsionis.registrasi.index_pet') ? 'shadow-soft-xl bg-white font-semibold text-slate-700' : 'text-slate-500 hover:text-slate-700' }}" href="{{ route('resepsionis.registrasi.index_pet') }}">
                         <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5 {{ request()->routeIs('resepsionis.registrasi.pet') ? 'bg-gradient-to-tl from-blue-600 to-cyan-400' : 'bg-white' }}">
-                            <i class="fas fa-dog {{ request()->routeIs('resepsionis.registrasi.pet') ? 'text-white' : 'text-slate-700' }}"></i>
+                            <i class="fas fa-dog {{ request()->routeIs('resepsionis.registrasi.index_pet') ? 'text-white' : 'text-slate-700' }}"></i>
                         </div>
                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Registrasi Pet</span>
                     </a>

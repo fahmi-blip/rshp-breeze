@@ -25,7 +25,6 @@ class PemilikController extends Controller
     }
     public function create()
     {
-        // Ambil user yang belum jadi pemilik
         $existingIds = DB::table('pemilik')->pluck('iduser');
         $users = DB::table('user')->whereNotIn('iduser', $existingIds)->get();
         
@@ -86,12 +85,10 @@ class PemilikController extends Controller
     
     protected function validatePemilik(Request $request, $id = null)
     {
-        $primaryKey = (new Pemilik)->getKeyName(); // 'idpemilik'
+        $primaryKey = (new Pemilik)->getKeyName(); 
         
-        // Rule unique untuk iduser (1 user hanya bisa jadi 1 pemilik)
         $uniqueIdUserRule = Rule::unique('pemilik', 'iduser');
         
-        // Rule unique untuk no_wa
         $uniqueNoWaRule = Rule::unique('pemilik', 'no_wa');
 
         if ($id) {
@@ -103,7 +100,7 @@ class PemilikController extends Controller
             'iduser' => [
                 'required',
                 'integer',
-                'exists:user,iduser',  // Sesuaikan dengan nama tabel
+                'exists:user,iduser',  
                 $uniqueIdUserRule
             ],
             'no_wa' => [
@@ -111,7 +108,7 @@ class PemilikController extends Controller
                 'string',
                 'min:10',
                 'max:20',
-                'regex:/^[0-9]+$/',  // Hanya angka
+                'regex:/^[0-9]+$/',  
                 $uniqueNoWaRule
             ],
             'alamat' => [
@@ -121,7 +118,6 @@ class PemilikController extends Controller
                 'max:500'
             ],
         ], [
-            // Custom messages
             'iduser.required' => 'User pemilik wajib dipilih.',
             'iduser.exists' => 'User yang dipilih tidak valid.',
             'iduser.unique' => 'User ini sudah terdaftar sebagai pemilik.',
@@ -136,10 +132,6 @@ class PemilikController extends Controller
         ]);
     }
 
-    /**
-     * Helper untuk membuat data pemilik baru
-     * Sesuai Modul 11
-     */
     protected function createPemilik(array $data)
     {
         try {

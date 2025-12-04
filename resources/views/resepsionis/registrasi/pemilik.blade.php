@@ -6,52 +6,102 @@
 @section('content')
 <div class="flex flex-wrap -mx-3">
     <div class="flex-none w-full max-w-full px-3">
-        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-            
-            <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-soft-xl rounded-2xl">
+
+            <div class="p-6 pb-0 mb-0 bg-white rounded-t-2xl">
                 <h6 class="font-bold">Form Registrasi Pemilik Baru</h6>
             </div>
 
             <div class="flex-auto p-6">
-               
-                <form action="#" method="POST">
+
+                {{-- Success Alert --}}
+                @if (session('success'))
+                    <div class="p-4 mb-4 text-sm text-white bg-green-500 rounded-lg">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                {{-- Error Alert --}}
+                @if (session('error'))
+                    <div class="p-4 mb-4 text-sm text-white bg-red-500 rounded-lg">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                {{-- List Error --}}
+                @if ($errors->any())
+                    <div class="p-4 mb-4 text-sm text-white bg-red-600 rounded-lg">
+                        <ul class="ml-4 list-disc">
+                            @foreach ($errors->all() as $err)
+                                <li>{{ $err }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('resepsionis.registrasi.pemilik.store') }}" method="POST">
                     @csrf
-                    
+
+                    {{-- Nama --}}
                     <div class="mb-4">
                         <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Nama Lengkap</label>
-                        <input type="text" name="nama" required 
-                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" 
-                            placeholder="Nama lengkap pemilik" />
+                        <input type="text" name="nama" value="{{ old('nama') }}"
+                            class="text-sm block w-full rounded-lg border 
+                            @error('nama') border-red-500 @else border-gray-300 @enderror
+                            px-3 py-2"
+                            placeholder="Nama lengkap pemilik" required>
                     </div>
 
+                    {{-- Email --}}
                     <div class="mb-4">
                         <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Email</label>
-                        <input type="email" name="email" required 
-                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"
-                            placeholder="contoh@email.com" />
+                        <input type="email" name="email" value="{{ old('email') }}"
+                            class="text-sm block w-full rounded-lg border
+                            @error('email') border-red-500 @else border-gray-300 @enderror
+                            px-3 py-2"
+                            placeholder="contoh@email.com" required>
                     </div>
 
+                    {{-- Password --}}
+                    <div class="mb-4">
+                        <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Password</label>
+                        <input type="password" name="password"
+                            class="text-sm block w-full rounded-lg border
+                            @error('password') border-red-500 @else border-gray-300 @enderror
+                            px-3 py-2" required>
+                    </div>
+
+                    {{-- WhatsApp --}}
                     <div class="mb-4">
                         <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Nomor WhatsApp</label>
-                        <input type="text" name="no_wa" required 
-                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"
-                            placeholder="08xxxxxxxx" />
+                        <input type="text" name="no_wa" value="{{ old('no_wa') }}"
+                            minlength="10" maxlength="20" pattern="[0-9]+"
+                            class="text-sm block w-full rounded-lg border
+                            @error('no_wa') border-red-500 @else border-gray-300 @enderror
+                            px-3 py-2"
+                            placeholder="08xxxxxxxx" required>
                     </div>
 
+                    {{-- Alamat --}}
                     <div class="mb-4">
                         <label class="mb-2 ml-1 text-xs font-bold text-slate-700">Alamat</label>
-                        <textarea name="alamat" rows="3" required 
-                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"
-                            placeholder="Alamat lengkap"></textarea>
+                        <textarea name="alamat" rows="3"
+                            class="text-sm block w-full rounded-lg border
+                            @error('alamat') border-red-500 @else border-gray-300 @enderror
+                            px-3 py-2" required>{{ old('alamat') }}</textarea>
                     </div>
 
+                    {{-- Submit --}}
                     <div class="mt-6 text-center">
-                        <button type="submit" class="inline-block w-full px-6 py-3 text-xs font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-purple-700 to-pink-500 hover:scale-102 active:opacity-85 hover:shadow-soft-xs leading-pro ease-soft-in tracking-tight-rem sm:w-auto">
+                        <button type="submit"
+                            class="px-6 py-3 text-xs font-bold text-white uppercase transition rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 hover:scale-105">
                             Daftarkan Pemilik
                         </button>
                     </div>
+
                 </form>
             </div>
+
         </div>
     </div>
 </div>

@@ -33,10 +33,6 @@ class PetController extends Controller
             ->select('pemilik.idpemilik', 'user.nama')
             ->get();
             
-        // Ubah struktur agar view create.blade.php tetap jalan ($item->user->nama)
-        // Kita map agar cocok dengan view yang mengharapkan properti nested, 
-        // ATAU (lebih baik) ubah view create untuk pakai $item->nama saja. 
-        // Di sini saya kirim data flat, asumsikan view create pakai $item->nama.
         foreach($pemilik as $p) {
             $p->user = (object)['nama' => $p->nama];
         }

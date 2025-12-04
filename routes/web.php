@@ -136,7 +136,14 @@ Route::prefix('resepsionis')->name('resepsionis.')->middleware(['auth', 'check.r
     
     Route::prefix('registrasi')->name('registrasi.')->group(function () {
         Route::get('/pemilik', [ResepsionisPemilikController::class, 'index'])->name('pemilik');
-        Route::get('/pet', [ResepsionisPetController::class, 'index'])->name('pet');
+        Route::post('/pemilik', [ResepsionisPemilikController::class, 'store'])->name('pemilik.store');
+
+        Route::get('/pet', [ResepsionisPetController::class, 'index'])->name('index_pet');
+        Route::get('/pet/create', [ResepsionisPetController::class, 'create'])->name('pet.create');
+        Route::post('/pet', [ResepsionisPetController::class, 'store'])->name('pet.store');
+        Route::delete('pet/{id}', [ResepsionisPetController::class, 'delete'])->name('pet.delete');
+        Route::get('/pet/create/get-ras-hewan/{idjenis_hewan}', [ResepsionisPetController::class, 'getRasByJenis'])->name('pet.get-ras-hewan');
+        
         Route::get('/temu-dokter', [TemuDokterController::class, 'index'])->name('temudokter');
     });
 });
