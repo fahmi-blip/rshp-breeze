@@ -144,9 +144,12 @@ Route::prefix('resepsionis')->name('resepsionis.')->middleware(['auth', 'check.r
         Route::delete('pet/{id}', [ResepsionisPetController::class, 'delete'])->name('pet.delete');
         Route::get('/pet/get-ras-hewan/{idjenis_hewan}', [ResepsionisPetController::class, 'getRasByJenis'])->name('pet.get-ras-hewan');
         
+        // Di bagian Resepsionis Routes, update bagian temu-dokter
         Route::get('/temu-dokter', [TemuDokterController::class, 'index'])->name('temudokter');
         Route::get('/temu-dokter/create', [TemuDokterController::class, 'create'])->name('temudokter.create');
         Route::post('/temu-dokter', [TemuDokterController::class, 'store'])->name('temudokter.store');
+        Route::put('/temu-dokter/{id}/status', [TemuDokterController::class, 'updateStatus'])->name('temudokter.updateStatus');
+        Route::delete('/temu-dokter/{id}', [TemuDokterController::class, 'delete'])->name('temudokter.delete');
     });
 });
 
@@ -165,6 +168,9 @@ Route::prefix('perawat')->name('perawat.')->middleware(['auth', 'check.role:Pera
     
     Route::prefix('rekam-medis')->name('rekam-medis.')->group(function () {
         Route::get('/', [RekamMedisController::class, 'index'])->name('index');
+        // Menggunakan idreservasi_dokter sebagai parameter
+        Route::get('/create/{idreservasi}', [RekamMedisController::class, 'create'])->name('create');
+        Route::post('/store', [RekamMedisController::class, 'store'])->name('store');
     });
 });
 
