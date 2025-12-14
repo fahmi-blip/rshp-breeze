@@ -44,7 +44,7 @@
                         <a href="{{ route('resepsionis.registrasi.temudokter') }}">
                             <div class="relative flex flex-col min-w-0 break-words transition-all bg-white shadow-soft-xl rounded-2xl bg-clip-border hover:shadow-soft-2xl">
                                 <div class="flex-auto p-4 text-center">
-                                    <div class="inline-block w-12 h-12 mb-2 text-center rounded-lg bg-gradient-to-tl from-orange-600 to-yellow-400">
+                                    <div class="inline-block w-12 h-12 mb-2 text-center rounded-lg bg-gradient-to-tl from-green-600 to-lime-400">
                                         <i class="fas fa-clipboard-list text-lg relative top-3.5 text-white"></i>
                                     </div>
                                     <h6 class="mb-1 font-bold">Antrian Dokter</h6>

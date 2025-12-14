@@ -159,6 +159,10 @@ Route::prefix('dokter')->name('dokter.')->middleware(['auth', 'check.role:Dokter
     
     Route::prefix('detail-rekam-medis')->name('detail-rekam-medis.')->group(function () {
         Route::get('/', [DetailRekamMedisController::class, 'index'])->name('index');
+        // Halaman pemeriksaan (Edit Rekam Medis)
+        Route::get('/{idreservasi}/periksa', [DetailRekamMedisController::class, 'edit'])->name('edit');
+        // Simpan Diagnosa & Tindakan
+        Route::put('/{idreservasi}', [DetailRekamMedisController::class, 'update'])->name('update');
     });
 });
 

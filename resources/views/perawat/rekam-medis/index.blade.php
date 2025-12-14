@@ -55,9 +55,9 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-3 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <a href="{{ route('perawat.rekam-medis.create', $item->idreservasi_dokter) }}" 
-                                       class="inline-block px-4 py-2 mb-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer leading-pro ease-soft-in tracking-tight-rem shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs {{ $item->idrekam_medis ? 'bg-orange-500' : 'bg-blue-500' }}">
-                                        {{ $item->idrekam_medis ? 'Edit Data' : 'Input Data' }}
+                                    
+                                    <a href="{{ route('perawat.rekam-medis.create', $item->idreservasi_dokter) }}" class="inline-block px-4 py-2 mb-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 hover:scale-102 shadow-soft-md">
+                                            <i class="mr-1 fas fa-stethoscope"></i> {{ $item->idrekam_medis ? 'Edit' : 'Input' }}
                                     </a>
                                 </td>
                             </tr>
