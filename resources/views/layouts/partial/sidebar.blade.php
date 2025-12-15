@@ -563,6 +563,32 @@
             
             @endif
 
+            {{-- ... Kode Sidebar yang sudah ada ... --}}
+
+{{-- MENU PEMILIK --}}
+@if(Auth::user()->role_user->contains('idrole', 5)) {{-- Asumsi ID Role Pemilik = 5 --}}
+    <li class="mt-0.5 w-full">
+        <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors {{ Request::is('pemilik/jadwal*') ? 'bg-white font-semibold text-slate-700 shadow-soft-xl rounded-lg' : 'text-slate-700' }}"
+           href="{{ route('pemilik.jadwal') }}">
+            <div class="{{ Request::is('pemilik/jadwal*') ? 'bg-gradient-to-tl from-purple-700 to-pink-500 text-white' : 'bg-white text-slate-700' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Jadwal Temu</span>
+        </a>
+    </li>
+
+    <li class="mt-0.5 w-full">
+        <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors {{ Request::is('pemilik/riwayat*') ? 'bg-white font-semibold text-slate-700 shadow-soft-xl rounded-lg' : 'text-slate-700' }}"
+           href="{{ route('pemilik.riwayat') }}">
+            <div class="{{ Request::is('pemilik/riwayat*') ? 'bg-gradient-to-tl from-purple-700 to-pink-500 text-white' : 'bg-white text-slate-700' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-history"></i>
+            </div>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Riwayat Medis</span>
+        </a>
+    </li>
+@endif
+
+{{-- ... Lanjutan kode sidebar ... --}}
 
             {{-- ================= MENU PERAWAT ================= --}}
             @if(Auth::user()->hasRole('perawat'))
@@ -696,7 +722,7 @@
                     </a>
                 </form>
             </li>
-
+            
         </ul>
     </div>    
 </aside>

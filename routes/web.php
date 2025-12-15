@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
 use App\Http\Controllers\Admin\TindakanTerapiController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Pemilik\PemilikDashboardController as PemilikDashboardController;
 use App\Http\Controllers\Resepsionis\DashboardController as ResepsionisController;
 use App\Http\Controllers\Resepsionis\PemilikController as ResepsionisPemilikController;
 use App\Http\Controllers\Resepsionis\PetController as ResepsionisPetController;
@@ -177,6 +178,36 @@ Route::prefix('perawat')->name('perawat.')->middleware(['auth', 'check.role:Pera
         Route::post('/store', [RekamMedisController::class, 'store'])->name('store');
     });
 });
+
+// ... import controller lainnya di atas
+use App\Http\Controllers\Pemilik\RiwayatController;
+
+// ... kode route lainnya
+
+// Pemilik Routes (Tambahkan blok ini)
+Route::prefix('pemilik')->name('pemilik.')->middleware(['auth', 'check.role:Pemilik'])->group(function () {
+    // Dashboard / Jadwal Temu (Halaman Utama Pemilik)
+    Route::get('/jadwal', [App\Http\Controllers\Pemilik\PemilikController::class, 'index'])->name('jadwal');
+    
+    // Riwayat Rekam Medis
+    Route::get('/riwayat', [App\Http\Controllers\Pemilik\PemilikController::class, 'riwayat'])->name('riwayat');
+    Route::get('/riwayat/{id}/detail', [App\Http\Controllers\Pemilik\PemilikController::class, 'detailRiwayat'])->name('riwayat.detail');
+});
+// Pemilik Routes
+// Route::prefix('pemilik')->name('pemilik.')->middleware(['auth', 'check.role:Pemilik'])->group(function () {
+//     Route::get('/dashboard', [PemilikDashboardController::class, 'index'])->name('dashboard');
+    
+//     Route::prefix('jadwal')->name('jadwal.')->group(function () {
+//         Route::get('/', [\App\Http\Controllers\Pemilik\PemilikJadwalController::class, 'index'])->name('index');
+//     });
+    
+//     // Rekam Medis
+//     Route::prefix('rekam-medis')->name('rekam-medis.')->group(function () {
+//         Route::get('/', [\App\Http\Controllers\Pemilik\PemilikRekamMedisController::class, 'index'])->name('index');
+//         Route::get('/{idpet}', [\App\Http\Controllers\Pemilik\PemilikRekamMedisController::class, 'show'])->name('show');
+//         Route::get('/detail/{idrekam_medis}', [\App\Http\Controllers\Pemilik\PemilikRekamMedisController::class, 'detail'])->name('detail');
+//     });
+// });
 
 // Profile Routes
 Route::middleware('auth')->group(function () {

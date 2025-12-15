@@ -71,6 +71,7 @@ class AuthenticatedSessionController extends Controller
             'resepsionis' => redirect()->route('resepsionis.dashboard'),
             'dokter' => redirect()->route('dokter.dashboard'),
             'perawat' => redirect()->route('perawat.dashboard'),
+            'pemilik' => redirect()->route('pemilik.jadwal'),
             default => redirect()->route('login')
                 ->withErrors(['email' => 'Role tidak dikenali: ' . $roleName])
         };

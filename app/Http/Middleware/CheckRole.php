@@ -45,7 +45,8 @@ class CheckRole
             'admin' => 'admin',
             'dokter' => 'dokter',
             'perawat' => 'perawat',
-            'resepsionis' => 'resepsionis'
+            'resepsionis' => 'resepsionis',
+            'pemilik' => 'pemilik'
         ];
         
         $dbRoleName = strtolower($userRole->nama_role);
