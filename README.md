@@ -1,59 +1,244 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🐾 RSHP UNAIR — Sistem Informasi Rumah Sakit Hewan Pendidikan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Informasi berbasis web untuk **Rumah Sakit Hewan Pendidikan Universitas Airlangga (RSHP UNAIR)**. Aplikasi ini mengelola alur pelayanan medis hewan peliharaan, mulai dari registrasi pemilik, pendaftaran antrian dokter, pemeriksaan perawat, diagnosa dokter, hingga akses riwayat medis oleh pemilik hewan.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Daftar Isi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Tentang Proyek](#tentang-proyek)
+- [Fitur](#fitur)
+- [Teknologi](#teknologi)
+- [Struktur Role Pengguna](#struktur-role-pengguna)
+- [Alur Sistem](#alur-sistem)
+- [Instalasi](#instalasi)
+- [Konfigurasi Database](#konfigurasi-database)
+- [Struktur Database](#struktur-database)
+- [Struktur Direktori](#struktur-direktori)
+- [Screenshot](#screenshot)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📌 Tentang Proyek
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+RSHP UNAIR adalah sistem manajemen klinik hewan berbasis Laravel yang mendukung lima role pengguna dengan akses dan fungsi yang berbeda-beda. Sistem ini menggantikan proses manual dengan alur digital yang terintegrasi — dari pendaftaran pasien di loket hingga pencatatan rekam medis oleh dokter.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## ✨ Fitur
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🔐 Autentikasi & Otorisasi
+- Login multi-role berbasis database (`role_user`)
+- Middleware `CheckRole` untuk proteksi route per role
+- Redirect otomatis ke dashboard sesuai role setelah login
+- Session management role aktif
 
-### Premium Partners
+### 👨‍💼 Administrator
+- Manajemen User (tambah, edit, non-aktifkan)
+- Manajemen Role & penempatan Role ke User
+- Master data: Jenis Hewan, Ras Hewan, Kategori, Kategori Klinis
+- Manajemen Tindakan & Terapi (kode tindakan medis)
+- Manajemen data Pemilik dan Hewan Peliharaan (Pet)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 🏥 Resepsionis
+- Registrasi pemilik hewan baru (buat akun User + data Pemilik + Role Pemilik sekaligus)
+- Registrasi hewan peliharaan baru (dengan dynamic dropdown Ras berdasarkan Jenis via AJAX)
+- Manajemen antrian temu dokter harian
+- Update status antrian (Menunggu → Diperiksa → Selesai)
 
-## Contributing
+### 🩺 Perawat
+- Lihat daftar antrian pasien hari ini
+- Input pemeriksaan awal: Anamnesa dan Temuan Klinis
+- Update status pasien ke "Sedang Diperiksa" setelah input selesai
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 👨‍⚕️ Dokter
+- Dashboard statistik pasien harian (menunggu, sedang diperiksa, selesai, total riwayat)
+- Lihat catatan perawat (anamnesa & temuan klinis) sebelum memeriksa
+- Input diagnosa dan memilih tindakan/terapi dari daftar kode tindakan
+- Update status pasien ke "Selesai" setelah pemeriksaan
 
-## Code of Conduct
+### 🐕 Pemilik
+- Lihat jadwal temu dokter beserta status antrian hewan peliharaan
+- Akses riwayat rekam medis lengkap
+- Lihat detail rekam medis: diagnosa, tindakan/terapi yang dilakukan, nama dokter
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🛠 Teknologi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Komponen | Teknologi |
+|---|---|
+| Backend Framework | Laravel 11 |
+| Frontend Styling | Tailwind CSS (Soft UI Dashboard) |
+| Template Engine | Blade |
+| Database | MySQL |
+| Authentication | Laravel Auth (custom guard) |
+| Query | Eloquent ORM + Query Builder |
+| Package Manager | Composer, NPM |
+| Build Tool | Vite |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 👥 Struktur Role Pengguna
+
+```
+Administrator  →  Kelola seluruh master data & user
+Resepsionis    →  Registrasi pemilik, pet, dan antrian dokter
+Perawat        →  Input pemeriksaan awal (anamnesa & temuan klinis)
+Dokter         →  Input diagnosa dan tindakan medis
+Pemilik        →  Akses jadwal dan riwayat medis hewan
+```
+
+---
+
+## 🔄 Alur Sistem
+
+```
+1. Resepsionis mendaftarkan Pemilik + Hewan Peliharaan
+        ↓
+2. Resepsionis membuat antrian Temu Dokter
+        ↓
+3. Perawat mengisi Anamnesa & Temuan Klinis → status: "Diperiksa"
+        ↓
+4. Dokter melihat catatan perawat, mengisi Diagnosa & Tindakan → status: "Selesai"
+        ↓
+5. Pemilik dapat melihat jadwal & riwayat rekam medis
+```
+
+---
+
+## ⚙️ Instalasi
+
+### Prasyarat
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL
+
+### Langkah Instalasi
+
+```bash
+# 1. Clone repository
+git clone https://github.com/username/rshp-unair.git
+cd rshp-unair
+
+# 2. Install dependency PHP
+composer install
+
+# 3. Install dependency JavaScript
+npm install
+
+# 4. Salin file environment
+cp .env.example .env
+
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Konfigurasi database di file .env (lihat bagian bawah)
+
+# 7. Jalankan migrasi (jika menggunakan migrasi Laravel)
+php artisan migrate
+
+# 8. Build assets
+npm run build
+
+# 9. Jalankan server development
+php artisan serve
+```
+
+---
+
+## 🗄 Konfigurasi Database
+
+Edit file `.env` dan sesuaikan konfigurasi berikut:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=rshp_unair
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+## 🗂 Struktur Database
+
+### Tabel Utama
+
+| Tabel | Primary Key | Keterangan |
+|---|---|---|
+| `user` | `iduser` | Data akun pengguna |
+| `role` | `idrole` | Daftar role (Admin, Dokter, dll) |
+| `role_user` | `idrole_user` | Relasi user ↔ role + status aktif |
+| `pemilik` | `idpemilik` | Data pemilik hewan |
+| `jenis_hewan` | `idjenis_hewan` | Master jenis hewan (Kucing, Anjing, dll) |
+| `ras_hewan` | `idras_hewan` | Master ras hewan, FK ke `jenis_hewan` |
+| `pet` | `idpet` | Data hewan peliharaan |
+| `kategori` | `idkategori` | Kategori tindakan medis |
+| `kategori_klinis` | `idkategori_klinis` | Kategori klinis (Tindakan/Terapi) |
+| `kode_tindakan_terapi` | `idkode_tindakan_terapi` | Master kode tindakan & terapi |
+| `temu_dokter` | `idreservasi_dokter` | Antrian/reservasi pasien ke dokter |
+| `rekam_medis` | `idrekam_medis` | Rekam medis (anamnesa, temuan klinis, diagnosa) |
+| `detail_rekam_medis` | `iddetail_rekam_medis` | Detail tindakan per rekam medis |
+
+### Relasi Penting
+
+```
+user ─────────── role_user ─────────── role
+  │
+  └── pemilik
+          │
+          └── pet ─── ras_hewan ─── jenis_hewan
+                │
+                └── temu_dokter ──── role_user (dokter)
+                          │
+                          └── rekam_medis
+                                    │
+                                    └── detail_rekam_medis ── kode_tindakan_terapi
+```
+
+---
+
+## 📁 Struktur Direktori
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/          # Controller untuk role Administrator
+│   │   ├── Resepsionis/    # Controller untuk role Resepsionis
+│   │   ├── Dokter/         # Controller untuk role Dokter
+│   │   ├── Perawat/        # Controller untuk role Perawat
+│   │   ├── Pemilik/        # Controller untuk role Pemilik
+│   │   ├── Auth/           # Controller autentikasi
+│   │   └── Site/           # Controller halaman publik
+│   └── Middleware/
+│       └── CheckRole.php   # Middleware validasi role
+├── Models/
+│   ├── User.php
+│   ├── Pemilik.php
+│   ├── Pet.php
+│   ├── RasHewan.php
+│   ├── JenisHewan.php
+│   ├── Role.php
+│   ├── RoleUser.php
+│   ├── Kategori.php
+│   ├── KategoriKlinis.php
+│   └── TindakanTerapi.php
+resources/
+└── views/
+    ├── admin/              # View halaman admin
+    ├── resepsionis/        # View halaman resepsionis
+    ├── dokter/             # View halaman dokter
+    ├── perawat/            # View halaman perawat
+    ├── pemilik/            # View halaman pemilik
+    ├── auth/               # View login & autentikasi
+    ├── layouts/partial/    # Layout utama (sidebar, header, dll)
+    └── site/               # View halaman publik
+routes/
+├── web.php                 # Semua route aplikasi
+└── auth.php                # Route autentikasi
+```
+
+```
+```
