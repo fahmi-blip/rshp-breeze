@@ -239,6 +239,3 @@ routes/
 ├── web.php                 # Semua route aplikasi
 └── auth.php                # Route autentikasi
 ```
-
-```
-```
